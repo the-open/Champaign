@@ -1,5 +1,4 @@
 // @flow
-import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import queryString from 'query-string';
@@ -23,7 +22,7 @@ type SearchParams = {
 };
 
 type Action = FundraiserAction | PageAction;
-const store: Store<AppState, FundraiserAction> = window.champaign.store;
+const store: Store<AppState, FundraiserAction> = configureStore({});
 const dispatch = (a: Action): Action => store.dispatch(a);
 
 type MountFundraiserOptions = ChampaignPersonalizationData & {

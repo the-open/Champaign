@@ -1,7 +1,7 @@
 import $ from 'jquery';
-import _ from 'lodash';
+import { each } from 'lodash';
 import setupOnce from './setup_once';
-import GlobalEvents from '../shared/global_events';
+import { bindEvents } from '../shared/global_events';
 import Clipboard from 'clipboard';
 
 const SharesEditor = Backbone.View.extend({
@@ -22,7 +22,7 @@ const SharesEditor = Backbone.View.extend({
 
   initialize: function() {
     this.view = 'summary';
-    GlobalEvents.bindEvents(this);
+    bindEvents(this);
   },
 
   deleteVariant: function(e) {
@@ -106,7 +106,7 @@ const SharesEditor = Backbone.View.extend({
     // this only updates existing shares. new ones are appended by
     // code in view/share/shares/create.js.erb, using rails UJS
     $.get(`/api/pages/${data.id}/share-rows`, rows => {
-      _.each(rows, row => {
+      each(rows, row => {
         let $row = $(row.html);
         const $original = $(`#${$row.prop('id')}`);
         if ($original.hasClass('hidden-closed')) {

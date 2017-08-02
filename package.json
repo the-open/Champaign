@@ -10,7 +10,10 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ],
-    "*.{rb,rake}": ["bundle exec rubocop -a --force-exclusion", "git add"]
+    "*.{rb,rake}": [
+      "bundle exec rubocop -a --force-exclusion",
+      "git add"
+    ]
   },
   "dependencies": {
     "airbrake-js": "^0.9.4",
@@ -32,25 +35,27 @@
     "clipboard": "^1.7.1",
     "coffee-loader": "^0.7.3",
     "coffee-script": "^1.12.6",
-    "compression-webpack-plugin": "^0.4.0",
+    "compression-webpack-plugin": "^1.0.0",
     "css-loader": "^0.28.4",
     "dotenv": "^4.0.0",
-    "extract-text-webpack-plugin": "^2.1.0",
+    "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "glob": "^7.1.2",
     "jquery": "^3.2.1",
     "js-cookie": "^2.1.4",
     "js-yaml": "^3.9.0",
-    "json-loader": "^0.5.4",
+    "json-loader": "^0.5.7",
     "libphonenumber-js": "^0.4.23",
     "node-sass": "^4.5.3",
     "path-complete-extname": "^0.1.0",
-    "postcss-cssnext": "^2.11.0",
+    "postcss-cssnext": "^3.0.2",
     "postcss-loader": "^2.0.6",
     "postcss-smart-import": "^0.7.5",
+    "preact": "^8.2.1",
+    "preact-compat": "^3.16.0",
     "prop-types": "^15.5.10",
-    "query-string": "^4.3.4",
-    "rails-erb-loader": "^5.0.2",
+    "query-string": "^5.0.0",
+    "rails-erb-loader": "^5.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-intl": "^2.3.0",
@@ -64,34 +69,36 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "urijs": "^1.18.10",
-    "webpack": "^2.6.1",
-    "webpack-manifest-plugin": "^1.1.2",
+    "webpack": "^3.4.1",
+    "webpack-manifest-plugin": "^1.2.1",
     "webpack-merge": "^4.1.0",
     "whatwg-fetch": "^2.0.3",
     "yaml-loader": "^0.5.0"
   },
   "devDependencies": {
-    "babel-eslint": "6",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
+    "babel-plugin-lodash": "^3.2.11",
     "empty": "^0.10.1",
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^1.5.1",
-    "eslint": "^3.19.0",
+    "eslint": "^4.3.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-flowtype": "^2.35.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.1.0",
     "faker": "^4.1.0",
-    "flow-bin": "^0.48.0",
-    "husky": "^0.13.4",
+    "flow-bin": "^0.51.1",
+    "husky": "^0.14.3",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
-    "lint-staged": "^4.0.1",
-    "prettier": "^1.5.2",
+    "lint-staged": "^4.0.2",
+    "prettier": "^1.5.3",
     "react-addons-test-utils": "^15.6.0",
     "react-dev-utils": "^3.0.2",
-    "webpack-dev-server": "^2.5.1",
+    "webpack-bundle-analyzer": "^2.8.3",
+    "webpack-dev-server": "^2.6.1",
     "yamljs": "^0.3.0"
   },
   "jest": {
@@ -103,7 +110,12 @@
       "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",
       "^champaign-i18n$": "<rootDir>/spec/jest/champaign-i18n-stub.js"
     },
-    "roots": ["<rootDir>/app/javascript"],
-    "setupFiles": ["<rootDir>/spec/jest/setupJest", "babel-polyfill"]
+    "roots": [
+      "<rootDir>/app/javascript"
+    ],
+    "setupFiles": [
+      "<rootDir>/spec/jest/setupJest",
+      "babel-polyfill"
+    ]
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { isEmpty, merge, template, find } from 'lodash';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import Select from '../components/SweetSelect/SweetSelect';
@@ -41,20 +41,22 @@ class EmailTargetView extends Component {
   postSuggestedFund(fund: string) {
     if (!fund) return;
 
-    const url = `/api/pension_funds/suggest_fund`;
+    const url = '/api/pension_funds/suggest_fund';
 
-    this.setState({isSubmittingNewPensionFundName: true});
+    this.setState({ isSubmittingNewPensionFundName: true });
 
-    $.post(url, {"email_target[name]": fund}).done((a) => {
-      this.setState({
-        shouldShowFundSuggestion: false,
-        newPensionFundName: '',
-        newPensionFundSuggested: true,
-        isSubmittingNewPensionFundName: false,
+    $.post(url, { 'email_target[name]': fund })
+      .done(a => {
+        this.setState({
+          shouldShowFundSuggestion: false,
+          newPensionFundName: '',
+          newPensionFundSuggested: true,
+          isSubmittingNewPensionFundName: false,
+        });
+      })
+      .fail(a => {
+        console.log('err');
       });
-    }).fail((a) => {
-      console.log('err');
-    });
   }
 
   getPensionFunds(country: string) {
@@ -85,7 +87,7 @@ class EmailTargetView extends Component {
     const fields = ['country', 'subject', 'name', 'email', 'fund'];
 
     fields.forEach(field => {
-      if (_.isEmpty(this.props[field])) {
+      if (isEmpty(this.props[field])) {
         const location = `email_target.form.errors.${field}`;
         const message = <FormattedMessage id={location} />;
         errors[field] = message;
@@ -93,12 +95,12 @@ class EmailTargetView extends Component {
     });
 
     this.setState({ errors: errors });
-    return _.isEmpty(errors);
+    return isEmpty(errors);
   }
 
   render() {
     const errorNotice = () => {
-      if (!_.isEmpty(this.state.errors)) {
+      if (!isEmpty(this.state.errors)) {
         return (
           <span className="error-msg left-align">
             <FormattedMessage id="email_target.form.errors.message" />
@@ -109,7 +111,7 @@ class EmailTargetView extends Component {
 
     const parse = template => {
       template = template.replace(/(?:\r\n|\r|\n)/g, '<br />');
-      template = _.template(template);
+      template = template(template);
       return template(this.props);
     };
 
@@ -122,53 +124,56 @@ class EmailTargetView extends Component {
     };
 
     const changeFund = value => {
-      const contact = _.find(this.props.pensionFunds, { _id: value });
+      const contact = find(this.props.pensionFunds, { _id: value });
       this.props.changeFund(contact);
     };
 
     const showFundSuggestion = () => {
       if (this.state.shouldShowFundSuggestion) {
         return (
-            <div className='email-target_box'>
-              <h3><span>We're sorry you couldn't find your pension fund.
-                Send us its name and we'll update our records.</span></h3>
-              <div className="form__group">
-                <Input
-                  name="new_pension_fund"
-                  label={
-                    <FormattedMessage
-                      id="email_target.form.new_pension_fund"
-                      defaultMessage="Name of your pension fund"
-                    />
-                  }
-                  value={ this.state.newPensionFundName }
-                  onChange={ (value) => {
-                    this.setState({newPensionFundName: value});
-                  }
+          <div className="email-target_box">
+            <h3>
+              <span>
+                We're sorry you couldn't find your pension fund. Send us its
+                name and we'll update our records.
+              </span>
+            </h3>
+            <div className="form__group">
+              <Input
+                name="new_pension_fund"
+                label={
+                  <FormattedMessage
+                    id="email_target.form.new_pension_fund"
+                    defaultMessage="Name of your pension fund"
+                  />
                 }
+                value={this.state.newPensionFundName}
+                onChange={value => {
+                  this.setState({ newPensionFundName: value });
+                }}
               />
-              </div>
-
-              <div className="form__group">
-                <Button
-                  disabled={this.state.isSubmittingNewPensionFundName}
-                  className="button action-form__submit-button"
-                  onClick={
-                    (e) => {
-                      e.preventDefault();
-                      this.postSuggestedFund(this.state.newPensionFundName);
-                    }
-                  }>
-                  Send
-                </Button>
-              </div>
             </div>
+
+            <div className="form__group">
+              <Button
+                disabled={this.state.isSubmittingNewPensionFundName}
+                className="button action-form__submit-button"
+                onClick={e => {
+                  e.preventDefault();
+                  this.postSuggestedFund(this.state.newPensionFundName);
+                }}
+              >
+                Send
+              </Button>
+            </div>
+          </div>
         );
       }
     };
 
     const prepBody = () =>
-      `${parseHeader().__html}\n\n${this.props.body}\n\n${parseFooter().__html}`;
+      `${parseHeader().__html}\n\n${this.props.body}\n\n${parseFooter()
+        .__html}`;
 
     const onSubmit = e => {
       e.preventDefault();
@@ -189,7 +194,7 @@ class EmailTargetView extends Component {
         to_email: this.props.fundEmail,
       };
 
-      _.merge(payload, this.props.formValues);
+      merge(payload, this.props.formValues);
 
       this.props.changeSubmitting(true);
       $.post('/api/email_targets', payload).done((a, b, c) => {});
@@ -257,8 +262,10 @@ class EmailTargetView extends Component {
                   <a
                     onClick={() =>
                       this.setState({
-                        shouldShowFundSuggestion: !this.state.shouldShowFundSuggestion,
-                      })}>
+                        shouldShowFundSuggestion: !this.state
+                          .shouldShowFundSuggestion,
+                      })}
+                  >
                     Can't find your pension fund?
                   </a>
                 </p>
@@ -300,7 +307,8 @@ class EmailTargetView extends Component {
                   }
                   value={this.props.name}
                   errorMessage={this.state.errors.name}
-                  onChange={value => this.props.changeName(value)} />
+                  onChange={value => this.props.changeName(value)}
+                />
               </div>
 
               <div className="form__group">
@@ -342,7 +350,8 @@ class EmailTargetView extends Component {
             <div className="form__group">
               <Button
                 disabled={this.props.isSubmitting}
-                className="button action-form__submit-button">
+                className="button action-form__submit-button"
+              >
                 <FormattedMessage
                   id="email_target.form.send_email"
                   defaultMessage="Send email (default)"
@@ -395,7 +404,7 @@ export const mapStateToProps = (state: OwnState) => ({
   to: state.emailTarget.to,
   page: state.emailTarget.page,
   isSubmitting: state.emailTarget.isSubmitting,
-  formValues: state.emailTarget.formValues
+  formValues: state.emailTarget.formValues,
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({

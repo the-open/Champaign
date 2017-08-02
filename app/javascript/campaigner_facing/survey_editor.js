@@ -1,4 +1,4 @@
-import GlobalEvents from '../shared/global_events';
+import { bindEvents } from '../shared/global_events';
 
 const SurveyEditor = Backbone.View.extend({
   el: '.survey',
@@ -14,7 +14,7 @@ const SurveyEditor = Backbone.View.extend({
   initialize(options = {}) {
     this.makeSortable();
     this.id = this.$el.data('plugin-id');
-    GlobalEvents.bindEvents(this);
+    bindEvents(this);
   },
 
   makeSortable() {

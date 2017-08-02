@@ -1,30 +1,30 @@
-import _ from "lodash";
+import { each, keys } from 'lodash';
 
 const CurrencyMethods = {
-  DEFAULT_CURRENCY: "USD",
+  DEFAULT_CURRENCY: 'USD',
   DEFAULT_DONATION_BANDS: {
     GBP: [1, 3, 10, 15, 35],
     USD: [2, 5, 10, 25, 50],
     EUR: [2, 5, 10, 25, 45],
     AUD: [3, 10, 15, 35, 70],
     CAD: [3, 10, 15, 35, 70],
-    NZD: [3, 10, 15, 35, 75]
+    NZD: [3, 10, 15, 35, 75],
   },
   CURRENCY_SYMBOLS: {
-    USD: "$",
-    EUR: "€",
-    GBP: "£",
-    CAD: "$",
-    AUD: "$",
-    NZD: "$"
+    USD: '$',
+    EUR: '€',
+    GBP: '£',
+    CAD: '$',
+    AUD: '$',
+    NZD: '$',
   },
 
   showDonationBandForCurrency(currency) {
     const candidates = [
       [this.donationBands, currency],
       [this.DEFAULT_DONATION_BANDS, currency],
-      [this.donationBands, "USD"],
-      [this.DEFAULT_DONATION_BANDS, "USD"]
+      [this.donationBands, 'USD'],
+      [this.DEFAULT_DONATION_BANDS, 'USD'],
     ];
     for (let ii = 0; ii < candidates.length; ii++) {
       const denomination = candidates[ii][1];
@@ -36,8 +36,8 @@ const CurrencyMethods = {
   },
 
   showDonationBand(amounts, currency) {
-    const $buttonContainer = this.$(".fundraiser-bar__amount-buttons");
-    $buttonContainer.html("");
+    const $buttonContainer = this.$('.fundraiser-bar__amount-buttons');
+    $buttonContainer.html('');
     for (let ii = 0; ii < amounts.length; ii++) {
       const tag = `<div class="fundraiser-bar__amount-button" data-amount="${amounts[
         ii
@@ -53,28 +53,28 @@ const CurrencyMethods = {
     } else {
       this.currency = currency;
     }
-    this.$(".fundraiser-bar__current-currency").text(
-      I18n.t("fundraiser.currency_in", { currency: this.currency })
+    this.$('.fundraiser-bar__current-currency').text(
+      I18n.t('fundraiser.currency_in', { currency: this.currency })
     );
-    this.$("select.fundraiser-bar__currency-selector")
-      .find("option")
-      .prop("selected", false);
-    this.$("select.fundraiser-bar__currency-selector")
+    this.$('select.fundraiser-bar__currency-selector')
+      .find('option')
+      .prop('selected', false);
+    this.$('select.fundraiser-bar__currency-selector')
       .find(`option[value="${this.currency}"]`)
-      .prop("selected", true);
+      .prop('selected', true);
     this.showDonationBandForCurrency(this.currency);
   },
 
   setupCurrencySelector() {
-    const $select = this.$("select.fundraiser-bar__currency-selector");
-    _.each(_.keys(this.CURRENCY_SYMBOLS), function(currency, ii) {
+    const $select = this.$('select.fundraiser-bar__currency-selector');
+    each(keys(this.CURRENCY_SYMBOLS), function(currency, ii) {
       const option = `<option value="${currency}">${currency}</option>`;
       $select.append(option);
     });
   },
 
   switchCurrency(e) {
-    this.setCurrency(this.$("select.fundraiser-bar__currency-selector").val());
+    this.setCurrency(this.$('select.fundraiser-bar__currency-selector').val());
   },
 
   initializeCurrency(currency, donationBands) {
@@ -84,11 +84,11 @@ const CurrencyMethods = {
   },
 
   showCurrencySwitcher(e) {
-    this.$(".fundraiser-bar__engage-currency-switcher").addClass(
-      "hidden-irrelevant"
+    this.$('.fundraiser-bar__engage-currency-switcher').addClass(
+      'hidden-irrelevant'
     );
-    this.$(".fundraiser-bar__currency-selector").slideDown();
-  }
+    this.$('.fundraiser-bar__currency-selector').slideDown();
+  },
 };
 
 export default CurrencyMethods;

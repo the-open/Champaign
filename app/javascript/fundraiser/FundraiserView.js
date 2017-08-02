@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 import StepContent from '../components/Stepper/StepContent';
 import StepWrapper from '../components/Stepper/StepWrapper';
 import AmountSelection from '../components/AmountSelection/AmountSelection';
@@ -82,7 +82,7 @@ export class FundraiserView extends Component {
     } = this.props;
 
     // todo move this into AmountSelection (connect it to store)
-    const firstStepButtonTitle = _.isEmpty(formValues)
+    const firstStepButtonTitle = isEmpty(formValues)
       ? <FormattedMessage
           id="fundraiser.proceed_to_details"
           defaultMessage="Proceed to details (default)"

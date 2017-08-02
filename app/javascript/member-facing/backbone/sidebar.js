@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import Backbone from 'backbone';
-import GlobalEvents from '../../shared/global_events';
+import { bindEvents } from '../../shared/global_events';
 import MobileCheck from './mobile_check';
 
 const Sidebar = Backbone.View.extend({
@@ -17,7 +17,7 @@ const Sidebar = Backbone.View.extend({
     if (!MobileCheck.isMobile()) {
       $(window).on('resize', () => this.policeHeights());
     }
-    GlobalEvents.bindEvents(this);
+    bindEvents(this);
     this.policeHeights();
     window.setTimeout(this.policeHeights.bind(this), 200); // give sticky time to init
   },

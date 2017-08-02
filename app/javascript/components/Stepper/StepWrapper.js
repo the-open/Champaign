@@ -1,39 +1,39 @@
 // @flow
-import React, { Component, Children, cloneElement } from "react";
-import Stepper from "./Stepper";
-import ShowIf from "../ShowIf";
-import _ from "lodash";
-import "./Stepper.scss";
+import React, { Component, Children, cloneElement } from 'react';
+import Stepper from './Stepper';
+import ShowIf from '../ShowIf';
+import { compact } from 'lodash';
+import './Stepper.scss';
 
 type OwnProps = {
   changeStep: (step: number) => void,
   currentStep: number,
   submitting: boolean,
   title: string,
-  children?: any
+  children?: any,
 };
 
 export default class StepWrapper extends Component {
   props: OwnProps;
   state: {
-    steps: string[]
+    steps: string[],
   };
 
   constructor(props: OwnProps) {
     super(props);
     this.state = {
-      steps: []
+      steps: [],
     };
   }
 
   getTitles(): string[] {
     const { children } = this.props;
     if (!children) return [];
-    return Children.map(_.compact(children), child => child.props.title);
+    return Children.map(compact(children), child => child.props.title);
   }
 
   childrenWithExtraProps(children: any) {
-    return Children.map(_.compact(children), (child, index) =>
+    return Children.map(compact(children), (child, index) =>
       cloneElement(child, { visible: index === this.props.currentStep })
     );
   }
@@ -41,7 +41,7 @@ export default class StepWrapper extends Component {
   normalState() {
     const stepperProps = {
       ...this.props,
-      steps: this.getTitles()
+      steps: this.getTitles(),
     };
     return (
       <div className="StepWrapper-root">
@@ -62,7 +62,9 @@ export default class StepWrapper extends Component {
         <h1 className="submission-interstitial__title">
           <i className="fa fa-spin fa-cog" />Processing
         </h1>
-        <h4>Please do not close this tab<br />or use the back button.</h4>
+        <h4>
+          Please do not close this tab<br />or use the back button.
+        </h4>
       </div>
     );
   }

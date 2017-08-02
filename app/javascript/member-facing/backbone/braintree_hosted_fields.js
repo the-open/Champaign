@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import _ from 'lodash';
+import { each } from 'lodash';
 import Backbone from 'backbone';
 
 const BRAINTREE_TOKEN_URL =
@@ -111,7 +111,7 @@ const BraintreeHostedFields = Backbone.View.extend({
       error.details !== undefined &&
       error.details.invalidFieldKeys !== undefined
     ) {
-      _.each(error.details.invalidFieldKeys, key => {
+      each(error.details.invalidFieldKeys, key => {
         this.showError(key, I18n.t('errors.is_invalid'));
       });
     }

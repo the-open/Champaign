@@ -1,5 +1,6 @@
 'use strict';
 import $ from 'jquery';
+import { bind } from 'lodash';
 
 const slugChecker = Backbone.Model.extend({
   url: '/action_kit/check_slug',
@@ -23,7 +24,7 @@ const slugView = Backbone.View.extend({
 
   initialize() {
     this.slugChecker = new slugChecker();
-    this.slugChecker.on('change:valid', _.bind(this.updateViewWithValid, this));
+    this.slugChecker.on('change:valid', bind(this.updateViewWithValid, this));
     this.cacheDomElements();
     this.checking = false;
   },

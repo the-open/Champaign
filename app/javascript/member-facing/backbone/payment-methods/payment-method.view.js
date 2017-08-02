@@ -1,4 +1,5 @@
-class PaymentMethodItem extends Backbone.View {
+import { bindAll, template } from 'lodash';
+export default class PaymentMethodItem extends Backbone.View {
   constructor(options) {
     super({
       id: `payment-method-${options.model.get('id')}`,
@@ -7,8 +8,8 @@ class PaymentMethodItem extends Backbone.View {
       className: 'form__group payment-method-item',
     });
 
-    _.bindAll(this, 'render');
-    this.template = _.template($('#payment-method-item-template').html());
+    bindAll(this, 'render');
+    this.template = template($('#payment-method-item-template').html());
     this.model.bind('change', this.render);
   }
 
@@ -17,5 +18,3 @@ class PaymentMethodItem extends Backbone.View {
     return this;
   }
 }
-
-module.exports = PaymentMethodItem;

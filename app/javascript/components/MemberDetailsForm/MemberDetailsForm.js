@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { mapValues } from 'lodash';
 import Button from '../Button/Button';
 import { updateForm } from '../../state/fundraiser/actions';
 import FieldShape from '../FieldShape/FieldShape';
@@ -104,7 +104,7 @@ export class MemberDetailsForm extends Component {
   }
 
   handleFailure(response: any) {
-    const errors = _.mapValues(response.errors, ([message]) => {
+    const errors = mapValues(response.errors, ([message]) => {
       return {
         id: 'errors.this_field_with_message',
         defaultMessage: 'This field {message}',

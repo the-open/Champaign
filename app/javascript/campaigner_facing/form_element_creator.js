@@ -1,4 +1,4 @@
-import GlobalEvents from '../shared/global_events';
+import { bindEvents } from '../shared/global_events';
 
 const FormElementCreator = Backbone.View.extend({
   GENERIC_NAME: 'instruction', // since instruction fields are the only type with no need for a name
@@ -32,7 +32,7 @@ const FormElementCreator = Backbone.View.extend({
 
   initialize() {
     this.changeFormMode({ target: this.$('#form_element_data_type') });
-    GlobalEvents.bindEvents(this);
+    bindEvents(this);
   },
 
   changeFormMode(e) {
@@ -51,8 +51,8 @@ const FormElementCreator = Backbone.View.extend({
   },
 
   setModeVisuals(mode) {
-    for (var role of this.roles) {
-      let $el = this.$(`[data-editor-role=${role}]`);
+    for (const role of this.roles) {
+      const $el = this.$(`[data-editor-role=${role}]`);
       $el.toggleClass('hidden-closed', !this.hasField(role, mode));
     }
   },
@@ -88,7 +88,7 @@ const FormElementCreator = Backbone.View.extend({
   },
 
   setNameAwayFromGeneric() {
-    let $nameField = this.$('input#form_element_name');
+    const $nameField = this.$('input#form_element_name');
     if ($nameField.val() === this.GENERIC_NAME) {
       $nameField.val('');
     }
@@ -99,7 +99,7 @@ const FormElementCreator = Backbone.View.extend({
   },
 
   setLabelAwayFromGeneric() {
-    let $nameField = this.$('input#form_element_label');
+    const $nameField = this.$('input#form_element_label');
     if ($nameField.val() === this.GENERIC_LABEL) {
       $nameField.val('');
     }
@@ -139,7 +139,9 @@ const FormElementCreator = Backbone.View.extend({
   },
 
   removeChoice(e) {
-    let $choiceField = this.$(e.target).parents('.form-element__choice-field');
+    const $choiceField = this.$(e.target).parents(
+      '.form-element__choice-field'
+    );
     if (this.$('.form-element__choice-fields').children().length > 1) {
       $choiceField.remove();
     } else {
