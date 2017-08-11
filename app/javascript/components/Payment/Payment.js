@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
@@ -322,7 +322,7 @@ export class Payment extends Component {
 
     return (
       <div className="Payment section">
-        <ShowIf condition={!_.isEmpty(this.state.errors)}>
+        <ShowIf condition={!isEmpty(this.state.errors)}>
           <div className="fundraiser-bar__errors">
             <div className="fundraiser-bar__error-intro">
               <span className="fa fa-exclamation-triangle" />
@@ -341,11 +341,12 @@ export class Payment extends Component {
           </div>
         </ShowIf>
 
-        {!this.props.disableFormReveal &&
+        {!this.props.disableFormReveal && (
           <WelcomeMember
             member={member}
             resetMember={() => this.resetMember()}
-          />}
+          />
+        )}
 
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
@@ -381,21 +382,23 @@ export class Payment extends Component {
             onInit={() => this.paymentInitialized('card')}
           />
 
-          {currentPaymentType === 'paypal' &&
+          {currentPaymentType === 'paypal' && (
             <div className="PaymentMethod__guidance">
               <FormattedMessage
                 id={'fundraiser.payment_methods.ready_for_paypal'}
               />
-            </div>}
+            </div>
+          )}
 
-          {currentPaymentType === 'gocardless' &&
+          {currentPaymentType === 'gocardless' && (
             <div className="PaymentMethod__guidance">
               <FormattedMessage
                 id={'fundraiser.payment_methods.ready_for_gocardless'}
               />
-            </div>}
+            </div>
+          )}
 
-          {!hideRecurring &&
+          {!hideRecurring && (
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
@@ -406,7 +409,8 @@ export class Payment extends Component {
                 id="fundraiser.make_recurring"
                 defaultMessage="Make my donation monthly"
               />
-            </Checkbox>}
+            </Checkbox>
+          )}
 
           <Checkbox
             className="Payment__config"
