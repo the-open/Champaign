@@ -8,10 +8,11 @@
       _.merge(data, {
         name: member.full_name,
         email: member.email,
-        country: member.country,
+        country: member.country || window.champaign.personalization.location.country,
         formValues: window.champaign.personalization.formValues
       });
 
+      console.log('email tool data:', data);
       mountEmailTool('email-tool-component', data);
     });
   </script>

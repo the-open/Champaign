@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
@@ -7,26 +8,29 @@ import SelectCountry from '../components/SelectCountry/SelectCountry';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 
+type EmailTarget = {
+  name: string,
+  email: string,
+};
+
 type Props = {
   emailBody: string,
   emailHeader: string,
   emailFooter: string,
+  emailFrom: string,
   emailSubject: string,
   country: string,
   email: string,
   name: string,
-  pensionFunds: Array<string>,
   isSubmitting: boolean,
-  to: string,
-  fundId: string,
-  fund: string,
-  fundContact: string,
-  fundEmail: string,
   page: string,
+  pageId: number,
+  targets: EmailTarget[],
+  useMemberEmail: boolean,
 };
 
 type State = Props & {
-  name: string,
+  target: EmailTarget,
   errors: { [field: string]: string },
 };
 
@@ -38,14 +42,45 @@ export default class EmailToolView extends Component {
     super(props);
     this.state = {
       ...this.props,
-      name: '',
+      target: this.props.targets[0],
       errors: {},
     };
   }
 
-  onSubmit = e => {
+  fromEmail(): string {
+    if (this.state.useMemberEmail) {
+      return this.state.email;
+    }
+
+    return this.state.emailFrom;
+  }
+
+  onSubmit(e: SyntheticEvent) {
     e.preventDefault();
-  };
+    const data = {
+      body: this.state.emailBody,
+      country: this.state.country,
+      from_name: this.state.name,
+      from_email: this.fromEmail(),
+      page: this.props.page,
+      page_id: this.props.pageId,
+      subject: this.state.emailSubject,
+      target_name: this.state.target.name,
+      to_name: this.state.target.name,
+      to_email: this.state.target.email,
+    };
+    console.log('posting:', data);
+    this.setState(s => ({ ...s, isSubmitting: true }));
+    $.post('/api/emails', data)
+      .then(success => {
+        console.log('Sending email success!', success);
+        this.setState(s => ({ ...s, isSubmitting: false }));
+      })
+      .fail(failure => {
+        console.log('Sending email failed', failure);
+        this.setState(s => ({ ...s, isSubmitting: false }));
+      });
+  }
 
   parseHeader() {
     return { __html: this.parse(this.props.emailHeader) };
@@ -60,17 +95,19 @@ export default class EmailToolView extends Component {
       .emailBody}\n\n${this.parseFooter().__html}`;
   }
 
-  parse(template) {
-    template = template.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    template = _.template(template);
-    return template(this.props);
+  parse(tpl: string = ''): string {
+    tpl = tpl.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    return template(tpl)(this.props);
   }
 
   render() {
     return (
       <div className="email-target">
         <div className="email-target-form">
-          <form onSubmit={this.onSubmit} className="action-form form--big">
+          <form
+            onSubmit={e => this.onSubmit(e)}
+            className="action-form form--big"
+          >
             <div className="email-target-action">
               <h3>
                 <FormattedMessage
@@ -81,16 +118,17 @@ export default class EmailToolView extends Component {
 
               <div className="form__group">
                 <Input
-                  name="email_subject"
+                  name="subject"
                   errorMessage={this.state.errors.emailSubject}
-                  value={this.props.emailSubject}
+                  value={this.state.emailSubject}
                   label={
                     <FormattedMessage
                       id="email_target.form.subject"
                       defaultMessage="Subject (default)"
                     />
                   }
-                  onChange={subject => this.setState(s => ({ ...s, subject }))}
+                  onChange={emailSubject =>
+                    this.setState(s => ({ ...s, emailSubject }))}
                 />
               </div>
 
@@ -103,7 +141,7 @@ export default class EmailToolView extends Component {
                       defaultMessage="Your name (default)"
                     />
                   }
-                  value={this.props.name}
+                  value={this.state.name}
                   errorMessage={this.state.errors.name}
                   onChange={name => this.setState(s => ({ ...s, name }))}
                 />
@@ -119,7 +157,7 @@ export default class EmailToolView extends Component {
                       defaultMessage="Your email (default)"
                     />
                   }
-                  value={this.props.email}
+                  value={this.state.email}
                   errorMessage={this.state.errors.email}
                   onChange={email => this.setState(s => ({ ...s, email }))}
                 />
@@ -134,8 +172,12 @@ export default class EmailToolView extends Component {
                   <textarea
                     name="email_body"
                     value={this.state.emailBody}
-                    onChange={emailBody =>
-                      this.setState(s => ({ ...s, emailBody }))}
+                    onChange={e => {
+                      this.setState(s => ({
+                        ...s,
+                        emailBody: e.currentTarget.value,
+                      }));
+                    }}
                     maxLength="9999"
                   />
                   <div
