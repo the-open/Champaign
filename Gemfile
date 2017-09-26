@@ -3,7 +3,7 @@
 
 source 'https://rubygems.org'
 ruby '2.4.1'
-
+gem 'coffee-script'
 gem 'aasm'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 gem 'bcrypt', '~> 3.1.7'
