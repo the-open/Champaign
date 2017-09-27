@@ -8,6 +8,10 @@ jobs:
         environment:
           RAILS_ENV: test
       - image: circleci/postgres:9.4.12-alpine
+        environment:
+          POSTGRES_USER: champaign
+          POSTGRES_DB: champaign
+          POSTGRES_PASSWORD: ""
     steps:
       - checkout
 
@@ -24,6 +28,14 @@ jobs:
           paths:
             - vendor/bundle
 
-      # Database setup
+     # Database setup
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
+
+      - run:
+          name: Run tests
+          command: bin/rspec spec
