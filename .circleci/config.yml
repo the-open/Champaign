@@ -7,11 +7,12 @@ jobs:
       - image: circleci/ruby:2.4.1-node
         environment:
           RAILS_ENV: test
-      - image: circleci/postgres:9.4.12-alpine
+      - image: postgres:9.4.12
         environment:
           POSTGRES_USER: champaign
           POSTGRES_DB: champaign
-          POSTGRES_PASSWORD: ""
+      - image: redis
+
     steps:
       - checkout
 
