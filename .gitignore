@@ -56,5 +56,6 @@ app/javascript/util/locales/*.json
 yarn-error.log
 /public/packs
 /public/packs-test
+public/assets/
 /node_modules
 .env

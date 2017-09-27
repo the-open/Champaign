@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 namespace :assets do
+  task :hello do
+    puts 'HELLO, OMAR'
+  end
+
   task :download_and_precompile, %i[url_template credentials branch source_assets_path] => :environment do |_t, args|
     if args[:url_template].blank?
       puts 'Not including any external assets'
