@@ -26,7 +26,10 @@ development: &default
 
 test:
   <<: *default
-  database: champaign_test
+  database: champaign
+  username: champaign
+  port: 5432
+  password:
 
 production:
   adapter: postgresql
