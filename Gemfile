@@ -29,7 +29,7 @@ gem 'omniauth-google-oauth2'
 gem 'pg'
 gem 'phony_rails'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.1.0'
 gem 'rails-i18n'
 gem 'readthis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
@@ -61,10 +61,10 @@ gem 'newrelic_rpm'
 gem 'puma', '~> 3.9.1'
 gem 'sass-rails'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
-gem 'sprockets-rails'
+gem 'sprockets-rails', '3.2.0'
 gem 'summernote-rails'
 gem 'turnout'
-gem 'twilio-ruby'
+gem 'twilio-ruby', '4.13.0'
 gem 'uglifier'
 gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
 gem 'bootsnap', require: false
@@ -81,6 +81,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'vcr'
   gem 'zeus', '~> 0.15.15.pre'
+  gem 'knapsack'
 end
 
 group :development do
