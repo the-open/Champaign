@@ -39,4 +39,4 @@ jobs:
 
       - run:
           name: Run tests
-          command: bin/rspec spec
+          command: KNAPSACK_GENERATE_REPORT=true bundle exec rspec spec
