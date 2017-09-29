@@ -16,18 +16,28 @@ jobs:
     steps:
       - checkout
 
-      # Restore bundle cache
+      # Restore cache
       - restore_cache:
-          key: rails-demo-{{ checksum "Gemfile.lock" }}
+          key: champaign-{{ checksum "Gemfile.lock" }}
+
+      - restore_cache:
+          key: champaign-{{ checksum "yarn.lock" }}
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
       # Store bundle cache
       - save_cache:
-          key: rails-demo-{{ checksum "Gemfile.lock" }}
+          key: champaign-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      - run: yarn
+
+      - save_cache:
+          key: champaign-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
 
      # Database setup
       - run:
@@ -38,5 +48,8 @@ jobs:
       - run: bundle exec rake db:schema:load
 
       - run:
-          name: Run tests
+          name: Run specs
           command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+      - run:
+          name: Run JS tests
+          command: yarn run test
