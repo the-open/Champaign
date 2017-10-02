@@ -4,7 +4,8 @@ jobs:
     parallelism: 3
     working_directory: ~/circleci-champaign
     docker:
-      - image: circleci/ruby:2.4.1-node
+      # - image: circleci/ruby:2.4.1-node
+      - image: souadmin/champaign-deploy:0.0.6
         environment:
           RAILS_ENV: test
       - image: postgres:9.4.12
@@ -47,10 +48,16 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      - run:
-          name: Run JS tests
-          command: yarn run test
+      # - run:
+          # name: Run JS tests
+          # command: yarn run test
 
-      - run:
-          name: Run specs
-          command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+      # - run:
+          # name: Run specs
+          # command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+
+      - deploy:
+          name: Deploy to ElasticBeanstalk
+          command: |
+            eb init sou-champs -v -r us-west-2 -p Ruby 2.4
+            eb deploy
