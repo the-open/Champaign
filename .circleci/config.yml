@@ -5,7 +5,7 @@ jobs:
     working_directory: ~/circleci-champaign
     docker:
       # - image: circleci/ruby:2.4.1-node
-      - image: souadmin/champaign-deploy:0.0.6
+      - image: souadmin/champaign-deploy:0.0.7
         environment:
           RAILS_ENV: test
       - image: postgres:9.4.12
