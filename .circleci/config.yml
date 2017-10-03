@@ -48,13 +48,13 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      # - run:
-          # name: Run JS tests
-          # command: yarn run test
+      - run:
+          name: Run JS tests
+          command: yarn run test
 
-      # - run:
-          # name: Run specs
-          # command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+      - run:
+          name: Run specs
+          command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
 
       - deploy:
           name: Deploy to ElasticBeanstalk
