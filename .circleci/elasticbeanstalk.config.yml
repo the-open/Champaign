@@ -1,0 +1,21 @@
+branch-defaults:
+  feature.direct_deploy:
+    environment: sou-champs-dev
+    group_suffix: null
+environment-defaults:
+  sou-champs-dev:
+    branch: null
+    repository: null
+global:
+  application_name: sou-champs
+  branch: null
+  default_ec2_keyname: omar-eb
+  default_platform: ruby
+  default_region: us-west-2
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: git
+  workspace_type: Application
