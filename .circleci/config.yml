@@ -8,6 +8,13 @@ jobs:
       - image: souadmin/champaign-deploy:0.0.7
         environment:
           RAILS_ENV: test
+          EXTERNAL_ASSET_PATHS: ./tmp/external_assets_source
+          CUSTOM_ASSETS_URL: https://api.github.com/repos/SumOfUs/sou-assets/tarball/<branch>
+          DEFAULT_ASSET_BRANCH: development
+          EXTERNAL_CSS_PATH: stylesheets/champaign
+          EXTERNAL_JS_PATH: /home/ubuntu/Champaign/tmp/external_assets_source/javascripts/champaign
+          EXTERNAL_TRANSLATION_PATH: translations
+          EXTERNAL_LIQUID_PATH: templates
       - image: postgres:9.4.12
         environment:
           POSTGRES_USER: champaign
@@ -54,7 +61,8 @@ jobs:
 
       - run:
           name: Run specs
-          command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+          # command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+          command: bundle exec rspec spec
 
       - deploy:
           name: Deploy to ElasticBeanstalk
