@@ -22,7 +22,7 @@ import redirectors from '../member-facing/redirectors';
 
 window.URI = URI;
 
-if (process.env.EXTERNAL_JS_PATH) {
+if (process.env.EXTERNAL_JS_PATH && process.env.RAILS_ENV !== 'test') {
   require(process.env.EXTERNAL_JS_PATH);
 }
 
