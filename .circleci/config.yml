@@ -7,6 +7,8 @@ jobs:
       # - image: circleci/ruby:2.4.1-node
       - image: souadmin/champaign-deploy:0.0.7
         environment:
+          PG_USERNAME: champaign
+          PG_PASSWORD: champaign
           RAILS_ENV: test
           EXTERNAL_ASSET_PATHS: ''
           CUSTOM_ASSETS_URL: ''
