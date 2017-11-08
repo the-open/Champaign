@@ -14,6 +14,7 @@ function ebextensions_setup() {
     export PAPERTRAIL_SYSTEM=$AWS_ENVIRONMENT_NAME
     cat .ebextensions/03_papertrail.config | envsubst '$PAPERTRAIL_HOST:$PAPERTRAIL_PORT:$PAPERTRAIL_SYSTEM' >temp
     mv temp .ebextensions/03_papertrail.config
+    cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
 
     echo 'Applying environment-specific configuration in .ebextensions'
     envsubst '$AWS_ENVIRONMENT_NAME' <.ebextensions/04_newrelic.config >temp
