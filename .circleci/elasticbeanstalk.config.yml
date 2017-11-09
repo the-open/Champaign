@@ -2,6 +2,9 @@ branch-defaults:
   feature.direct_deploy:
     environment: sou-champs-dev
     group_suffix: null
+  parallel-build:
+    environment: sou-champs-demo
+
 environment-defaults:
   sou-champs-dev:
     branch: null

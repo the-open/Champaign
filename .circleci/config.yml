@@ -1,10 +1,9 @@
 version: 2
 jobs:
-  build:
-    parallelism: 3
+
+  test:
     working_directory: ~/circleci-champaign
     docker:
-      # - image: circleci/ruby:2.4.1-node
       - image: souadmin/champaign-deploy:0.0.7
         environment:
           PG_USERNAME: champaign
@@ -62,9 +61,44 @@ jobs:
           name: Run specs
           command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
 
-      - deploy:
-          name: Deploy to ElasticBeanstalk
-          command: |
-            mkdir .elasticbeanstalk & \
-            cp .circleci/elasticbeanstalk.config.yml .elasticbeanstalk/config.yml & \
-            eb deploy
+
+#      - deploy:
+#          name: Deploy to ElasticBeanstalk
+#          command: |
+#            mkdir .elasticbeanstalk & \
+#            cp .circleci/elasticbeanstalk.config.yml .elasticbeanstalk/config.yml & \
+#            eb deploy
+
+    docker_build:
+        docker:
+          - image: souadmin/champaign-deploy:0.0.7
+        steps:
+          - checkout
+          - run:
+              name: Docker build
+              command: ./circleci/build
+
+
+    docker_deploy:
+      docker:
+        - image: souadmin/champaign-deploy:0.0.7
+      steps:
+        - checkout
+        - run:
+          name: Deploy docker
+          command: ./circleci/deploy_docker
+
+workflows:
+  version: 2
+  docker_deploy:
+    jobs:
+      - test
+      - docker_build
+      - docker_deploy:
+        requires:
+          - test
+          - docker_build
+        filters:
+          branches:
+            only:
+              - parallel-build
