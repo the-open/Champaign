@@ -15,3 +15,5 @@ aws elasticbeanstalk create-application-version --application-name "sou-champs" 
 echo 'Updating environment...'
 aws elasticbeanstalk update-environment --environment-name "sou-champs-demo" \
 --version-label $CIRCLE_SHA1
+
+

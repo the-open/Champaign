@@ -5,7 +5,7 @@ jobs:
     docker:
     # The EB cli has been deprecated for AWS's catch-all command line interface, which I needed to upload the source
     # bundle to S3. I've changed the base image everywhere just so that there is one less image to download/cache.
-      - image: souadmin/ruby2.4.1_node_awscli:0.1
+      - image: soutech/ruby2.4.1_node_awscli:0.1
         environment:
           PG_USERNAME: champaign
           PG_PASSWORD: champaign
@@ -62,7 +62,7 @@ jobs:
   docker_build:
     working_directory: ~/circleci-champaign
     docker:
-      - image: souadmin/ruby2.4.1_node_awscli:0.1
+      - image: soutech/ruby2.4.1_node_awscli:0.1
     steps:
       - checkout
       - setup_remote_docker:
@@ -76,7 +76,7 @@ jobs:
   docker_deploy:
     working_directory: ~/circleci-champaign
     docker:
-      - image: souadmin/ruby2.4.1_node_awscli:0.1
+      - image: soutech/ruby2.4.1_node_awscli:0.1
     steps:
       - checkout
       - run:
