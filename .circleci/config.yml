@@ -1,6 +1,5 @@
 version: 2
 jobs:
-
   test:
     working_directory: ~/circleci-champaign
     docker:
@@ -78,7 +77,6 @@ jobs:
               name: Docker build
               command: ./circleci/build
 
-
     docker_deploy:
       docker:
         - image: souadmin/champaign-deploy:0.0.7
@@ -90,7 +88,7 @@ jobs:
 
 workflows:
   version: 2
-  docker_deploy:
+  docker_build_deploy:
     jobs:
       - test
       - docker_build
