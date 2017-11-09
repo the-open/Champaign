@@ -69,22 +69,24 @@ jobs:
 #            eb deploy
 
   docker_build:
+    working_directory: ~/circleci-champaign
     docker:
       - image: souadmin/champaign-deploy:0.0.7
     steps:
       - checkout
       - run:
           name: Docker build
-          command: .circleci/build
+          command: .circleci/build.sh
 
   docker_deploy:
+    working_directory: ~/circleci-champaign
     docker:
       - image: souadmin/champaign-deploy:0.0.7
     steps:
       - checkout
       - run:
           name: Deploy docker
-          command: .circleci/deploy_docker
+          command: .circleci/deploy_docker.sh
 
 workflows:
   version: 2
