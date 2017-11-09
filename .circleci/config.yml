@@ -68,35 +68,35 @@ jobs:
 #            cp .circleci/elasticbeanstalk.config.yml .elasticbeanstalk/config.yml & \
 #            eb deploy
 
-    docker_build:
-        docker:
-          - image: souadmin/champaign-deploy:0.0.7
-        steps:
-          - checkout
-          - run:
-              name: Docker build
-              command: ./circleci/build
-
-    docker_deploy:
-      docker:
-        - image: souadmin/champaign-deploy:0.0.7
-      steps:
-        - checkout
-        - run:
-          name: Deploy docker
-          command: ./circleci/deploy_docker
+#    docker_build:
+#        docker:
+#          - image: souadmin/champaign-deploy:0.0.7
+#        steps:
+#          - checkout
+#          - run:
+#              name: Docker build
+#              command: ./circleci/build
+#
+#    docker_deploy:
+#      docker:
+#        - image: souadmin/champaign-deploy:0.0.7
+#      steps:
+#        - checkout
+#        - run:
+#          name: Deploy docker
+#          command: ./circleci/deploy_docker
 
 workflows:
   version: 2
   docker_build_deploy:
     jobs:
       - test
-      - docker_build
-      - docker_deploy:
-        requires:
-          - test
-          - docker_build
-        filters:
-          branches:
-            only:
-              - parallel-build
+#      - docker_build
+#      - docker_deploy:
+#        requires:
+#          - test
+#          - docker_build
+#        filters:
+#          branches:
+#            only:
+#              - parallel-build
