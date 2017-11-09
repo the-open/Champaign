@@ -74,9 +74,13 @@ jobs:
       - image: souadmin/champaign-deploy:0.0.7
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Docker build
-          command: .circleci/build.sh
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            .circleci/build.sh
 
   docker_deploy:
     working_directory: ~/circleci-champaign
