@@ -94,7 +94,7 @@ body.page-edit-body {
           }
         }
 
-        .fa {
+        .fas {
           margin-right: 8px;
         }
       }
@@ -366,11 +366,11 @@ body.page-edit-body {
       cursor: pointer;
       &:hover {
         background-color: maroon;
-        .fa {
+        .fas {
           color: white;
         }
       }
-      .fa {
+      .fas {
         line-height: 25px;
         cursor: pointer;
       }
@@ -380,11 +380,11 @@ body.page-edit-body {
 
 [data-toggle="collapse"] {
   cursor: pointer;
-  .fa {
+  .fas {
     margin-right: 5px;
     @include transition(transform 0.4s linear);
   }
-  &.open .fa {
+  &.open .fas {
     @include transform(rotate(90deg));
   }
 }

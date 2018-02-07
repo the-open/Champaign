@@ -200,7 +200,6 @@ class BraintreeCardFields extends Component {
           method="post"
           onSubmit={this.submit.bind(this)}
         >
-
           <div
             id="braintree-card-number"
             className="BraintreeCardFields__hosted-field BraintreeCardFields__card-number"
@@ -210,7 +209,7 @@ class BraintreeCardFields extends Component {
           <span
             ref="card_type"
             className={
-              'BraintreeCardFields__card-type fa ' +
+              'BraintreeCardFields__card-type fas ' +
               this.currentCardClass(this.state.cardType)
             }
           />
@@ -232,7 +231,6 @@ class BraintreeCardFields extends Component {
               'expiration',
               'BraintreeCardFields__error-msg--col-right'
             )}
-
         </form>
         <div className="clearfix"> </div>
       </div>

@@ -32,6 +32,7 @@ import ListEditor from '../campaigner_facing/list_editor';
 
 // Styles
 import 'c3/c3.css';
+import '../styles/campaigner-facing';
 
 Object.assign(window, {
   PageEditBar,

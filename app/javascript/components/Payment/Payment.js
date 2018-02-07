@@ -204,8 +204,9 @@ export class Payment extends Component {
       device_data: this.state.deviceData,
       provider: 'GC',
     };
-    const url = `/api/go_cardless/pages/${this.props.page
-      .id}/start_flow?${$.param(payload)}`;
+    const url = `/api/go_cardless/pages/${
+      this.props.page.id
+    }/start_flow?${$.param(payload)}`;
     window.open(url);
 
     if (!this.state.waitingForGoCardless) {
@@ -331,7 +332,7 @@ export class Payment extends Component {
         <ShowIf condition={!isEmpty(this.state.errors)}>
           <div className="fundraiser-bar__errors">
             <div className="fundraiser-bar__error-intro">
-              <span className="fa fa-exclamation-triangle" />
+              <span className="fas fa-exclamation-triangle" />
               <FormattedMessage
                 id="fundraiser.error_intro"
                 defaultMessage="Unable to process donation!"

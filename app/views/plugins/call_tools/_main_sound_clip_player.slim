@@ -6,14 +6,14 @@ ul.list-inline
     = plugin.sound_clip.original_filename
   li
     a
-      i.fa-play.fa.call-tool-play-main-clip
+      i.fa-play.fas.call-tool-play-main-clip
   li
     = link_to sound_clip_plugins_call_tool_path(plugin, role: 'main'),
       { method: :delete,
         remote: true,
         data: { confirm: t('common.confirm') } } do
       small
-        span.glyphicon.glyphicon-remove
+        span.fas.fas-ban
 
 
 javascript:

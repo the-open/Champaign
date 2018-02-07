@@ -1,35 +1,35 @@
 - id ||= -1
 .sidebar
   .sidebar__logo
-  ul.sidebar__step-list.nav
+  ul.sidebar__step-list.nav.fa-ul
     li class="#{'active' if action == :index}"
       = link_to controller: :pages, action: :index do
-        i.fa.fa-th-list
+        i.fas.fa-fw.fa-th-list
         | List Pages
     li class="#{'active' if action == :new}"
       = link_to controller: :pages, action: :new do
-        i.fa.fa-file
+        i.fas.fa-fw.fa-file
         | New Page
     - Page.limit(5).order('updated_at desc').each do |page|
       - unless page.title.blank?
         li class="#{id == page.id ? 'sidebar__group--open' : 'sidebar__group--closed'} sidebar__group"
           a class="sidebar__header-link #{'active' if id == page.id}"
-            i.fa.fa-file-text
+            i.fas.fa-fw.fa-file-alt
             = page.title
           - other_class = (action == :edit && id == page.id) ? 'active' : ''
           = link_to edit_page_path(page), class: "sidebar__secondary-link #{other_class}"
-            i.fa.fa-pencil
+            i.fas.fa-fw.fa-pencil-alt
             | Edit
           - other_class = (action == :analytics && id == page.id) ? 'active' : ''
           = link_to analytics_page_path(page), class: "sidebar__secondary-link #{other_class}"
-            i.fa.fa-area-chart
+            i.fas.fa-fw.fa-chart-area
             | Analyze
           - other_class = (action == :actions && id == page.id) ? 'active' : ''
           = link_to actions_page_path(page), class: "sidebar__secondary-link #{other_class}"
-            i.fa.fa-list
+            i.fas.fa-fw.fa-list
             | Actions
           = link_to member_facing_page_path(page), class: "sidebar__secondary-link"
-            i.fa.fa-eye
+            i.fas.fa-fw.fa-eye
             | View
 
 javascript:

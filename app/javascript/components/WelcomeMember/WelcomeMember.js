@@ -9,7 +9,7 @@
  * PREVIOUS MARKUP
  * ===============
  * <div class="action-form__welcome-text">
- *   <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
+ *   <i class="far fa-check-square fundraiser-bar__user-icon"></i>
  *   <span class="action-form__welcome-name">John Doe</span> <br>
  *   <a href="javascript:;" class=" action-form__clear-form">Not you?</a>
  * </div>
@@ -31,7 +31,7 @@ export default function WelcomeMember(props: OwnProps) {
 
   return (
     <div className="WelcomeMember">
-      <i className="WelcomeMember__icon fa fa-check-square-o" />
+      <i className="WelcomeMember__icon far fa-check-square" />
       <div>
         <span className="WelcomeMember__name">
           {props.member.name || props.member.email}

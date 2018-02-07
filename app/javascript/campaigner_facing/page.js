@@ -47,18 +47,18 @@ const slugView = Backbone.View.extend({
       'has-error has-success has-feedback'
     );
 
-    this.$('.form-group.slug .glyphicon').hide();
+    this.$('.form-group.slug .form-control-feedback').hide();
 
     console.log('valid is', valid);
     if (valid) {
       this.$('.form-group.slug').addClass('has-success has-feedback');
-      this.$('.form-group.slug .glyphicon-ok').show();
+      this.$('.form-group.slug .fa-check').show();
     } else {
       this.$('.slug-field').show();
       console.log(this.$('.form-group.slug'));
 
       this.$('.form-group.slug').addClass('has-error has-feedback');
-      this.$('.form-group.slug .glyphicon-remove').show();
+      this.$('.form-group.slug .fa-ban').show();
     }
   },
 

@@ -3,7 +3,7 @@
 
 <script type="text/template" id="payment-method-single-template">
   <div class="fundraiser-bar__payment-methods">
-    <i class="fa fa-credit-card fundraiser-bar__user-icon fundraiser-bar__user-icon--small"></i>
+    <i class="fas fa-credit-card fundraiser-bar__user-icon fundraiser-bar__user-icon--small"></i>
     <span class="action-form__welcome-name">
       <% if (instrument_type === 'credit_card') { %>
         <%= I18n.t('fundraiser.oneclick.credit_card_payment_method', {card_type: card_type, last_four_digits: last_4}) %>
@@ -39,7 +39,7 @@
 
 <script type="text/template" id="payment-method-collection-template">
   <div class="fundraiser-bar__payment-methods">
-    <i class="fa fa-credit-card fundraiser-bar__user-icon fundraiser-bar__user-icon--small"></i>
+    <i class="fas fa-credit-card fundraiser-bar__user-icon fundraiser-bar__user-icon--small"></i>
     <span class="action-form__welcome-name">
       {{ 'fundraiser.oneclick.select_payment' | t }}
     </span> <br />

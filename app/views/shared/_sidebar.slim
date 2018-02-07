@@ -3,11 +3,11 @@
   ul.sidebar__step-list.nav
     li class="#{'active' if action == :index}"
       = link_to controller: resource, action: :index do
-        i.fa.fa-th-list
+        i.fas.fa-th-list
         | List #{resource.to_s.titleize}
     li class="#{'active' if action == :new}"
       = link_to controller: resource, action: :new do
-        i.fa.fa-file
+        i.fas.fa-file
         | New #{resource.to_s.singularize.titleize}
     - filter ||= {}
     - klass = resource.to_s.singularize.classify.constantize
@@ -16,5 +16,5 @@
       - unless name.blank?
         li class="#{'active' if action == :edit && id == instance.id}"
           = link_to controller: resource, action: :edit, id: instance.id
-            i.fa.fa-pencil
+            i.fas.fa-pencil-alt
             = name

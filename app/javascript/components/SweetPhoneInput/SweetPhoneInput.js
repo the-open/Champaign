@@ -146,7 +146,7 @@ class SweetPhoneInput extends Component {
 
             {!restrictedCountryCode && (
               <i
-                className="fa fa-chevron-down"
+                className="fas fa-chevron-down"
                 style={{
                   fontSize: '.7em',
                   marginLeft: '5px',

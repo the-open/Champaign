@@ -2,7 +2,7 @@
   <% if image.present? %>
     <%= link_to page_image_url(@page, image), method: :delete,  data: { confirm: t('common.confirm') }, remote: true do %>
       <div class="dz-delete">
-        <span class="fa fa-trash-o"></span>
+        <span class="fas fa-trash"></span>
       </div>
     <% end -%>
   <% end %>
