@@ -153,7 +153,10 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Uploading assets to S3
-          command: .circleci/upload_assets.sh champaign-assets-production
+          command: aws s3 sync public/assets s3://champaign-assets-production/assets/
+      - run:
+          name: Uploading packs to S3
+          command: aws s3 sync public/packs s3://champaign-assets-production/packs/
 
   upload_assets_to_staging:
     <<: *defaults
@@ -163,7 +166,10 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Uploading assets to S3
-          command: .circleci/upload_assets.sh champaign-assets-staging
+          command: aws s3 sync public/assets s3://champaign-assets-staging/assets/
+      - run:
+          name: Uploading packs to S3
+          command: aws s3 sync public/packs s3://champaign-assets-staging/packs/
 
   upload_assets_to_testing:
     <<: *defaults
@@ -173,7 +179,10 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Uploading assets to S3
-          command: .circleci/upload_assets.sh champaign-assets-testing
+          command: aws s3 sync public/assets s3://champaign-assets-testing/assets/
+      - run:
+          name: Uploading packs to S3
+          command: aws s3 sync public/packs s3://champaign-assets-testing/packs/
 
   deploy_production:
     <<: *defaults
