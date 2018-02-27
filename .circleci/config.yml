@@ -222,14 +222,18 @@ workflows:
             - prepare
       - precompile_assets:
           requires:
-            - flow
-            - jest
+            - prepare
       - docker_build:
           requires:
+            - jest
+            - flow
             - rspec
             - precompile_assets
       - upload_assets_to_production:
           requires:
+            - rspec
+            - jest
+            - flow
             - precompile_assets
           filters:
             branches:
@@ -237,6 +241,9 @@ workflows:
                 - master
       - upload_assets_to_staging:
           requires:
+            - rspec
+            - jest
+            - flow
             - precompile_assets
           filters:
             branches:
@@ -244,6 +251,9 @@ workflows:
                 - vince/circleci2
       - upload_assets_to_testing:
           requires:
+            - rspec
+            - jest
+            - flow
             - precompile_assets
           filters:
             branches:
