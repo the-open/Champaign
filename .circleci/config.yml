@@ -153,7 +153,7 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Uploading assets to S3
-          command: .circleci/upload_assets.sh 'champaign-assets-production'
+          command: .circleci/upload_assets.sh champaign-assets-production
 
   upload_assets_to_staging:
     <<: *defaults
@@ -163,7 +163,7 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Uploading assets to S3
-          command: .circleci/upload_assets.sh 'champaign-assets-staging'
+          command: .circleci/upload_assets.sh champaign-assets-staging
 
   upload_assets_to_testing:
     <<: *defaults
@@ -173,7 +173,7 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Uploading assets to S3
-          command: .circleci/upload_assets.sh 'champaign-assets-testing'
+          command: .circleci/upload_assets.sh champaign-assets-testing
 
   deploy_production:
     <<: *defaults
