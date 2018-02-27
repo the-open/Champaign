@@ -1,41 +1,71 @@
+version: 2
 defaults: &defaults
   working_directory: ~/circleci-champaign
   docker:
     - image: soutech/ruby2.4.1_node_awscli:0.2
-
-version: 2
 jobs:
-  build:
+  prepare:
     <<: *defaults
     environment:
       EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
       EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
     steps:
       - checkout
-      # Restore dependencies caches
       - restore_cache:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
-
       - run: bundle install --path vendor/bundle
       - save_cache:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
-
-      - run: yarn && yarn run flow check
+      - run: yarn
       - save_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
           paths:
           - node_modules
-
       - persist_to_workspace:
           root: .
           paths:
             - vendor/bundle
             - node_modules
             - .bundle
+  flow:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Flow check
+          command: yarn run flow check
+  jest:
+    <<: *defaults
+    environment:
+      EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Run JS tests
+          command: yarn run test
+  build:
+    <<: *defaults
+    environment:
+      EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Docker build
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            .circleci/build.sh
 
   precompile_assets:
     # TODO: change epoch in cache key to git commit sha of the last commit in the sou-assets repo
@@ -66,11 +96,10 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - node_modules
             - public
             - tmp/external_assets_source
 
-  migrations_and_tests:
+  rspec:
     working_directory: ~/circleci-champaign
     docker:
       - image: soutech/ruby2.4.1_node_awscli:0.2
@@ -94,9 +123,6 @@ jobs:
           command: |
             bundle --path vendor/bundle
             bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
-      - run:
-          name: Run JS tests
-          command: yarn run test
       - run:
           name: Rspec tests
           command: bundle exec rspec spec
@@ -150,19 +176,26 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
+      - prepare
+      - flow:
+          requires:
+            - prepare
+      - jest:
+          requires:
+            - prepare
+      - rspec:
+          requires:
+            - prepare
       - precompile_assets:
           requires:
-            - build
-      - migrations_and_tests:
-          requires:
-            - build
+            - flow
+            - jest
+            - rspec
       - docker_build:
           requires:
             - precompile_assets
       - deploy_production:
           requires:
-            - migrations_and_tests
             - docker_build
           filters:
             branches:
@@ -170,7 +203,6 @@ workflows:
                 - master
       - deploy_staging:
           requires:
-            - migrations_and_tests
             - docker_build
           filters:
             branches:
@@ -178,7 +210,6 @@ workflows:
                 - circleci-2
       - deploy_feature:
           requires:
-            - migrations_and_tests
             - docker_build
           filters:
             branches:
