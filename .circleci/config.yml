@@ -93,24 +93,15 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/circleci-champaign
-      # Restore assets caches
-      - restore_cache:
-          key: assets-cache-{{ epoch }}
       - run: bundle install --path vendor/bundle
       - run:
           name: Precompile assets
           # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
           command: bundle exec rake assets:precompile
-      - save_cache:
-          key: assets-cache-{{ epoch }}
-          paths:
-          - public/assets
-          - public/packs
       - persist_to_workspace:
           root: .
           paths:
             - public
-            - tmp/external_assets_source
 
   rspec:
     working_directory: ~/circleci-champaign
@@ -154,6 +145,36 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             .circleci/build.sh
 
+  upload_assets_to_production:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Uploading assets to S3
+          command: .circleci/upload_assets.sh 'champaign-assets-production'
+
+  upload_assets_to_staging:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Uploading assets to S3
+          command: .circleci/upload_assets.sh 'champaign-assets-staging'
+
+  upload_assets_to_testing:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Uploading assets to S3
+          command: .circleci/upload_assets.sh 'champaign-assets-testing'
+
   deploy_production:
     <<: *defaults
     steps:
@@ -162,7 +183,7 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Deploy production
-          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
+          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
 
   deploy_staging:
     <<: *defaults
@@ -172,7 +193,7 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Deploy staging
-          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
 
   deploy_feature:
     <<: *defaults
@@ -182,7 +203,7 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Deploy feature branch
-          command: .circleci/deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
+          command: .circleci/deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
 
 
 workflows:
@@ -207,6 +228,27 @@ workflows:
           requires:
             - rspec
             - precompile_assets
+      - upload_assets_to_production:
+          requires:
+            - precompile_assets
+          filters:
+            branches:
+              only:
+                - master
+      - upload_assets_to_staging:
+          requires:
+            - precompile_assets
+          filters:
+            branches:
+              only:
+                - circleci-2
+      - upload_assets_to_testing:
+          requires:
+            - precompile_assets
+          filters:
+            branches:
+              only:
+                - override
       - deploy_production:
           requires:
             - docker_build
