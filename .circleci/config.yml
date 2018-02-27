@@ -241,7 +241,7 @@ workflows:
           filters:
             branches:
               only:
-                - circleci-2
+                - vince/circleci2
       - upload_assets_to_testing:
           requires:
             - precompile_assets
@@ -252,6 +252,7 @@ workflows:
       - deploy_production:
           requires:
             - docker_build
+            - upload_assets_to_production
           filters:
             branches:
               only:
@@ -259,13 +260,15 @@ workflows:
       - deploy_staging:
           requires:
             - docker_build
+            - upload_assets_to_staging
           filters:
             branches:
               only:
-                - circleci-2
+                - vince/circleci2
       - deploy_feature:
           requires:
             - docker_build
+            - upload_assets_to_testing
           filters:
             branches:
               only:
