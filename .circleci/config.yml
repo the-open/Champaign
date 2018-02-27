@@ -26,10 +26,12 @@ jobs:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
-      - save_cache:
-          key: yarn-cache-{{ checksum "yarn.lock" }}
-          paths:
-          - node_modules
+      - run:
+          name: Debug yarn cache
+          command: |
+            ls -lh
+            git diff
+            git status
       - save_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
           paths:
