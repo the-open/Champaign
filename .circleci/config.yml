@@ -12,8 +12,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
+          name: Restoring bundler cache
           key: gem-cache-{{ checksum "Gemfile.lock" }}
       - restore_cache:
+          name: Restoring node_modules cache
           key: yarn-cache-{{ checksum "yarn.lock" }}
       - run: bundle install --path vendor/bundle
       - save_cache:
@@ -87,7 +89,9 @@ jobs:
       - run:
           name: Precompile assets
           # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
-          command: bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
+          command: |
+            bundle --path vendor/bundle
+            bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
       - save_cache:
           key: assets-cache-{{ epoch }}
           paths:
