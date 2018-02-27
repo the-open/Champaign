@@ -190,9 +190,9 @@ workflows:
           requires:
             - flow
             - jest
-            - rspec
       - docker_build:
           requires:
+            - rspec
             - precompile_assets
       - deploy_production:
           requires:
