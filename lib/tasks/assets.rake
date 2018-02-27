@@ -34,7 +34,7 @@ namespace :assets do
     tar_file_path = './tmp/assets.tar'
 
     if url_template.blank? || target_path.blank?
-      raise 'usage: rake deploy:download_external_assets[target_path,url_template[,"user:password"][,branch]]'
+      raise 'usage: rake assets:download_external_assets[target_path,url_template[,"user:password"][,branch]]'
     end
 
     FileUtils.remove_dir(target_path) if File.exist?(target_path)

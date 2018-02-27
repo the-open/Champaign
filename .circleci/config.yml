@@ -18,11 +18,18 @@ jobs:
           name: Restoring node_modules cache
           key: yarn-cache-{{ checksum "yarn.lock" }}
       - run: bundle install --path vendor/bundle
+      - run: yarn
+      - run:
+          name: Download external assets
+          command: bundle exec rake assets:download_external_assets[$EXTERNAL_ASSETS_PATH,$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH]
       - save_cache:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
-      - run: yarn
+      - save_cache:
+          key: yarn-cache-{{ checksum "yarn.lock" }}
+          paths:
+          - node_modules
       - save_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
           paths:
@@ -33,6 +40,7 @@ jobs:
             - vendor/bundle
             - node_modules
             - .bundle
+            - tmp/external_assets_source
   flow:
     <<: *defaults
     steps:
@@ -86,12 +94,11 @@ jobs:
       # Restore assets caches
       - restore_cache:
           key: assets-cache-{{ epoch }}
+      - run: bundle install --path vendor/bundle
       - run:
           name: Precompile assets
           # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
-          command: |
-            bundle --path vendor/bundle
-            bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
+          command: bundle exec rake assets:precompile
       - save_cache:
           key: assets-cache-{{ epoch }}
           paths:
