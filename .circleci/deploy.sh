@@ -4,7 +4,8 @@ set -eu -o pipefail
 SHA1=$1
 AWS_APPLICATION_NAME=$2
 export AWS_ENVIRONMENT_NAME=$3
-export ENV_URL=$4
+STATIC_BUCKET=$4
+export ENV_URL=$5
 
 function ebextensions_setup() {
     echo 'Setting up configuration for Papertrail logging'
@@ -22,6 +23,8 @@ function ebextensions_setup() {
 }
 
 function sync_s3() {
+    aws s3 sync public/assets s3://$STATIC_BUCKET/assets/ && aws s3 sync public/packs/ s3://$STATIC_BUCKET/packs/
+
     echo 'Shipping source bundle to S3...'
     cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
     zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
