@@ -217,7 +217,7 @@ workflows:
           filters:
             branches:
               only:
-                - vince/circleci2
+                - development
       - deploy_feature:
           requires:
             - docker_build
@@ -228,4 +228,4 @@ workflows:
           filters:
             branches:
               only:
-                - override
+                - vince/circleci2
