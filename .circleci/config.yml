@@ -180,14 +180,13 @@ workflows:
             - prepare
       - docker_build:
           requires:
-            - prepare
+            - precompile_assets
       - deploy_production:
           requires:
             - docker_build
             - rspec
             - jest
             - flow
-            - precompile_assets
           filters:
             branches:
               only:
@@ -198,7 +197,6 @@ workflows:
             - rspec
             - jest
             - flow
-            - precompile_assets
           filters:
             branches:
               only:
@@ -209,7 +207,6 @@ workflows:
             - rspec
             - jest
             - flow
-            - precompile_assets
           filters:
             branches:
               only:
