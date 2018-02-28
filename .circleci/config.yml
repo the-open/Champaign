@@ -63,21 +63,6 @@ jobs:
       - run:
           name: Run JS tests
           command: yarn run test
-  build:
-    <<: *defaults
-    environment:
-      EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Docker build
-          command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            .circleci/build.sh
 
   precompile_assets:
     # TODO: change epoch in cache key to git commit sha of the last commit in the sou-assets repo
