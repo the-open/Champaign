@@ -145,36 +145,6 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             .circleci/build.sh
 
-  upload_assets_to_production:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
-      - run:
-          name: Uploading assets to S3
-          command: .circleci/upload_assets.sh champaign-assets-production
-
-  upload_assets_to_staging:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
-      - run:
-          name: Uploading assets to S3
-          command: .circleci/upload_assets.sh champaign-assets-staging
-
-  upload_assets_to_testing:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
-      - run:
-          name: Uploading assets to S3
-          command: .circleci/upload_assets.sh champaign-assets-testing
-
   deploy_production:
     <<: *defaults
     steps:
@@ -226,39 +196,6 @@ workflows:
       - docker_build:
           requires:
             - prepare
-      - upload_assets_to_production:
-          requires:
-            - docker_build
-            - rspec
-            - jest
-            - flow
-            - precompile_assets
-          filters:
-            branches:
-              only:
-                - master
-      - upload_assets_to_staging:
-          requires:
-            - docker_build
-            - rspec
-            - jest
-            - flow
-            - precompile_assets
-          filters:
-            branches:
-              only:
-                - vince/circleci2
-      - upload_assets_to_testing:
-          requires:
-            - docker_build
-            - rspec
-            - jest
-            - flow
-            - precompile_assets
-          filters:
-            branches:
-              only:
-                - override
       - deploy_production:
           requires:
             - docker_build
