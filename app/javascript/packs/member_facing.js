@@ -4,6 +4,7 @@ import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
 import 'whatwg-fetch';
+import 'cookieconsent';
 
 import URI from 'urijs';
 import configureStore from '../state';
@@ -44,6 +45,13 @@ const initializeApp = () => {
     BraintreeHostedFields,
     redirectors,
     ConsentFeature,
+  });
+  initializeCookieConsent();
+};
+
+const initializeCookieConsent = () => {
+  window.cookieconsent.initialise({
+    theme: 'block',
   });
 };
 
