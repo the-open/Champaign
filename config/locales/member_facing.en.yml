@@ -227,3 +227,7 @@ en:
     accept_long: "Yes – sign and receive emails"
     decline_short: "No"
     decline_long: "No – sign, but don't receive emails"
+  cookie_consent:
+    message: 'This website uses cookies to ensure you get the best experience on our website.'
+    dismiss_button_text: 'Got it!'
+    more_info_link_text: 'Learn more'
