@@ -103,7 +103,7 @@ external_assets_path: '<%= ENV["EXTERNAL_ASSETS_PATH"] %>'
 external_css_path: '<%= ENV["EXTERNAL_CSS_PATH"] %>'
 external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'
 external_liquid_path: '<%= ENV["EXTERNAL_LIQUID_PATH"] %>'
-default_asset_branch: <%= ENV['DEFAULT_ASSET_BRANCH'] %>
+default_asset_branch: 'feature-petition-gdpr-variants'
 
 default_mailer_address: <%= ENV['DEFAULT_MAILER_ADDRESS'] %>
 smtp:

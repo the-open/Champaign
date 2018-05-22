@@ -223,6 +223,7 @@ workflows:
             branches:
               only:
                 - development
+                - deploy-gdpr-qa
                 - /^feature(?:\/|-).+$/
 
       - build_docker_image:
@@ -233,6 +234,7 @@ workflows:
               only:
                 - master
                 - development
+                - deploy-gdpr-qa
                 - /^feature(?:\/|-).+$/
 
       - build_production_docker_image:
@@ -266,6 +268,7 @@ workflows:
             branches:
               only:
                 - development
+                - deploy-gdpr-qa
 
       - deploy_feature:
           requires:
