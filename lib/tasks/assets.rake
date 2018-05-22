@@ -40,7 +40,7 @@ namespace :assets do
     FileUtils.remove_dir(target_path) if File.exist?(target_path)
     FileUtils.mkdir_p target_path
 
-    urls = [current_branch, Settings.default_asset_branch, 'master'].map do |branch|
+    urls = [current_branch, Settings.default_asset_branch, 'feature.gdpr-base'].map do |branch|
       branch.present? ? url_template.gsub('<branch>', branch) : nil
     end.compact
 
