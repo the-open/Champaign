@@ -17,7 +17,7 @@
     ]
   },
   "dependencies": {
-    "@rails/webpacker": "^3.2.1",
+    "@rails/webpacker": "4.0.0-pre.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
@@ -51,11 +51,11 @@
     "mailcheck": "^1.1.1",
     "moment": "^2.20.1",
     "prettier": "^1.10.2",
-    "prop-types": "^15.6.0",
+    "prop-types": "^15.6.1",
     "query-string": "^5.0.1",
     "raven-js": "^3.24.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "react-intl": "^2.4.0",
     "react-onclickoutside": "^6.7.1",
     "react-redux": "^5.0.6",
@@ -67,7 +67,7 @@
     "speakingurl": "^14.0.1",
     "twitter-text": "^2.0.4",
     "urijs": "^1.19.0",
-    "webpack-dev-server": "^2.11.1",
+    "webpack-dev-server": "^3.1.4",
     "yamljs": "^0.3.0"
   },
   "jest": {

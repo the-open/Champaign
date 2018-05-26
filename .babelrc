@@ -14,6 +14,7 @@
     "react"
   ],
   "plugins": [
+    "transform-flow-strip-types",
     "syntax-dynamic-import",
     "transform-object-rest-spread",
     [
@@ -22,10 +23,5 @@
         "spec": true
       }
     ]
-  ],
-  "env": {
-    "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
-    }
-  }
+  ]
 }

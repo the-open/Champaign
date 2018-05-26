@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.4.1'
+ruby '2.5.1'
 
 gem 'aasm'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
@@ -65,7 +65,7 @@ gem 'sprockets-rails'
 gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
-gem 'webpacker', '~> 3.0'
+gem 'webpacker', '>= 4.0.x'
 
 group :development, :test do
   gem 'byebug'
