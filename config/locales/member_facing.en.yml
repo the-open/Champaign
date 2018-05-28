@@ -228,6 +228,6 @@ en:
     decline_short: "No"
     decline_long: "No – sign, but don't receive emails"
   cookie_consent:
-    message: 'This website uses cookies to ensure you get the best experience on our website.'
-    dismiss_button_text: 'Got it!'
+    message: 'Cookies are important to the proper functioning of this site.'
+    dismiss_button_text: 'Agree & Proceed'
     more_info_link_text: 'Learn more'
