@@ -1,6 +1,6 @@
-import $ from 'jquery';
 import Backbone from 'backbone';
 import GlobalEvents from '../../shared/global_events';
+import { publish } from '../../shared/pub_sub';
 import FacebookShareView from './facebook_share_view';
 
 const Petition = Backbone.View.extend({
@@ -33,7 +33,7 @@ const Petition = Backbone.View.extend({
   },
 
   handleSuccess(e, data) {
-    $.publish('petition:submitted');
+    publish('petition:submitted');
     if (this.skipOnSuccessAction) {
       return;
     }

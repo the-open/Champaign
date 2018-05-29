@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
+import { publish } from '../../shared/pub_sub';
 import { FormattedMessage } from 'react-intl';
 
 import Checkbox from '../Checkbox/Checkbox';
@@ -67,14 +68,14 @@ export class ExpressDonation extends Component {
   }
 
   async onSuccess(data: any): any {
-    $.publish('fundraiser:transaction_success', [data, this.props.formData]);
+    publish('fundraiser:transaction_success', [data, this.props.formData]);
     return data;
   }
 
   async onFailure(reason: any): any {
     this.setState({ submitting: false });
     this.props.setSubmitting(false);
-    $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
+    publish('fundraiser:transaction_error', [reason, this.props.formData]);
     return reason;
   }
 
@@ -129,14 +130,14 @@ export class ExpressDonation extends Component {
           />
         </span>
 
-        {this.props.paymentMethods.map(paymentMethod =>
+        {this.props.paymentMethods.map(paymentMethod => (
           <PaymentMethodItem
             key={paymentMethod.id}
             paymentMethod={paymentMethod}
             checked={this.state.currentPaymentMethod === paymentMethod}
             onChange={() => this.selectPaymentMethod(paymentMethod)}
           />
-        )}
+        ))}
       </PaymentMethodWrapper>
     );
   }

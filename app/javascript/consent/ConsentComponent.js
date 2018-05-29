@@ -1,9 +1,9 @@
 // @flow
-import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import classnames from 'classnames';
+import { publish } from '../shared/pub_sub';
 import { ConsentControls } from './ConsentControls';
 import { changeConsent } from '../state/consent';
 import type { AppState } from '../state/reducers';
@@ -34,7 +34,7 @@ class ConsentComponent extends Component {
   }
 
   componentDidUpdate() {
-    $.publish('sidebar:height_change');
+    publish('sidebar:height_change');
   }
 
   render() {

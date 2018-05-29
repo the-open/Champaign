@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { publish, subscribe } from '../shared/pub_sub';
 
 const configureDropZone = function() {
   Dropzone.options.dropzone = {
@@ -15,7 +16,7 @@ const configureDropZone = function() {
         $('.campaign-images .notice').hide();
         $('.dz-success').replaceWith(html);
         const id = $(html).data('image-id');
-        $.publish('image:success', [resp, id, html]);
+        publish('image:success', [resp, id, html]);
       });
 
       this.on('addedfiled', function(file) {
@@ -27,9 +28,13 @@ const configureDropZone = function() {
 
 const bindHandlers = function() {
   $('.campaign-images').on('ajax:success', 'a[data-method=delete]', function() {
-    $(this).parents('.dz-preview').fadeOut();
-    const imageId = $(this).parents('[data-image-id]').data('image-id');
-    $.publish('image:destroyed', imageId);
+    $(this)
+      .parents('.dz-preview')
+      .fadeOut();
+    const imageId = $(this)
+      .parents('[data-image-id]')
+      .data('image-id');
+    publish('image:destroyed', imageId);
   });
 };
 
@@ -44,9 +49,11 @@ const addImageOption = function(e, file, id, html) {
 };
 
 const removeImageOption = function(e, id) {
-  $('#page_primary_image_id').find('option[value="' + id + '"]').remove();
+  $('#page_primary_image_id')
+    .find('option[value="' + id + '"]')
+    .remove();
 };
 
-$.subscribe('dropzone:setup', initialize);
-$.subscribe('image:success', addImageOption);
-$.subscribe('image:destroyed', removeImageOption);
+subscribe('dropzone:setup', initialize);
+subscribe('image:success', addImageOption);
+subscribe('image:destroyed', removeImageOption);

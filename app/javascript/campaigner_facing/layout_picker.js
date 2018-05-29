@@ -1,4 +1,5 @@
-import $ from 'jquery';
+import Backbone from 'backbone';
+import { subscribe } from '../shared/pub_sub';
 import setupOnce from './setup_once';
 
 const LayoutPicker = Backbone.View.extend({
@@ -55,6 +56,6 @@ const LayoutPicker = Backbone.View.extend({
   },
 });
 
-$.subscribe('layout:edit pages:new', function() {
+subscribe('layout:edit pages:new', function() {
   setupOnce('.layout-settings', LayoutPicker);
 });

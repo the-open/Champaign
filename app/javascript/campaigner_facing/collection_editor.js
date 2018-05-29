@@ -8,7 +8,8 @@
 //   Twitter's typeahead: http://twitter.github.io/typeahead.js/
 //   - Use for autocompleting for setting the field's name value
 
-import $ from 'jquery';
+import { forEach } from 'lodash';
+import Backbone from 'backbone';
 import setupOnce from './setup_once';
 import ErrorDisplay from '../shared/show_errors';
 import GlobalEvents from '../shared/global_events';
@@ -57,7 +58,9 @@ const CollectionEditor = Backbone.View.extend({
     this.makeSortable();
     this.autoComplete();
     this.$el.on('ajax:success', 'a[data-method=delete]', function() {
-      $(this).parents('.list-group-item').fadeOut();
+      $(this)
+        .parents('.list-group-item')
+        .fadeOut();
     });
     GlobalEvents.bindEvents(this);
   },
@@ -82,7 +85,7 @@ const CollectionEditor = Backbone.View.extend({
 
       // Iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
-      $.each(strs, function(i, str) {
+      forEach(strs, function(i, str) {
         if (substrRegex.test(str)) {
           matches.push(str);
         }
@@ -149,12 +152,14 @@ const CollectionEditor = Backbone.View.extend({
       i,
       el
     ) {
-      const action = $(el).attr('action').replace(/\d+/, resp.form_id);
+      const action = $(el)
+        .attr('action')
+        .replace(/\d+/, resp.form_id);
       $(el).attr('action', action);
     });
   },
 });
 
-$.subscribe('collection:edit:loaded', function() {
+subscribe('collection:edit:loaded', function() {
   setupOnce('.collection-editor', CollectionEditor);
 });

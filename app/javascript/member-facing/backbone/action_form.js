@@ -1,4 +1,4 @@
-import $ from 'jquery';
+require('selectize');
 import React from 'react';
 import { render } from 'react-dom';
 import _ from 'lodash';

@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import Backbone from 'backbone';
+import { subscribe } from '../shared/pub_sub';
 import setupOnce from './setup_once';
 
 const ActionsEditor = Backbone.View.extend({
@@ -35,6 +37,6 @@ const ActionsEditor = Backbone.View.extend({
   },
 });
 
-$.subscribe('actions:edit', function() {
+subscribe('actions:edit', function() {
   setupOnce('.actions-editor', ActionsEditor);
 });

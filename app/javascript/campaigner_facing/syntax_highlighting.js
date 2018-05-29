@@ -1,6 +1,7 @@
 // This depends on codemirror and its modes being required in
 // `app/assets/javascripts/application.js`
 import $ from 'jquery';
+import { subscribe } from '../shared/pub_sub';
 
 $(function() {
   $('.syntax-highlighting').each(function(idx, el) {
@@ -9,6 +10,6 @@ $(function() {
       mode: mode,
       theme: '3024-night',
     });
-    $.subscribe('wysiwyg:submit', cm.save);
+    subscribe('wysiwyg:submit', cm.save);
   });
 });

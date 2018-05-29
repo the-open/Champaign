@@ -1,5 +1,7 @@
 import $ from 'jquery';
+import Backbone from 'backbone';
 import setupOnce from './setup_once';
+import { subscribe } from '../shared/pub_sub';
 
 const Sidebar = Backbone.View.extend({
   events: {
@@ -12,6 +14,6 @@ const Sidebar = Backbone.View.extend({
   },
 });
 
-$.subscribe('sidebar:nesting', function() {
+subscribe('sidebar:nesting', function() {
   setupOnce('.sidebar', Sidebar);
 });

@@ -1,7 +1,9 @@
 import $ from 'jquery';
 import _ from 'lodash';
+import Backbone from 'backbone';
 import setupOnce from './setup_once';
 import GlobalEvents from '../shared/global_events';
+import { subscribe } from '../shared/pub_sub';
 import Clipboard from 'clipboard';
 
 const SharesEditor = Backbone.View.extend({
@@ -94,7 +96,9 @@ const SharesEditor = Backbone.View.extend({
   },
 
   clearFormAndConformView: function(e) {
-    $(e.target).find('input[type="text"], textarea').val('');
+    $(e.target)
+      .find('input[type="text"], textarea')
+      .val('');
     this.setView(this.view); // make new rows conform
   },
 
@@ -131,7 +135,7 @@ const SharesEditor = Backbone.View.extend({
   },
 });
 
-$.subscribe('shares:edit', function() {
+subscribe('shares:edit', function() {
   setupOnce('.shares-editor', SharesEditor);
 });
 

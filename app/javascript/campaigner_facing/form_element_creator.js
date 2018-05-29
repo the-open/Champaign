@@ -1,3 +1,4 @@
+import Backbone from 'backbone';
 import GlobalEvents from '../shared/global_events';
 
 const FormElementCreator = Backbone.View.extend({

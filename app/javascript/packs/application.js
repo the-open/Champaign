@@ -6,14 +6,13 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
+import { setupPubSub } from '../shared/pub_sub';
+import 'selectize/dist/css/selectize.css';
 
 require('jquery');
+require('components-jqueryui');
+require('selectize');
 require('lodash');
 require('backbone');
-console.log('Hello World from Webpacker');
-console.log(
-  'jQuery, lodash, and backbone have been added to your global scope'
-);
-console.log('$ =>', window.$);
-console.log('_ =>', window._);
-console.log('Backbone =>', window.Backbone);
+
+setupPubSub(window.$);

@@ -1,3 +1,5 @@
+import Backbone from 'backbone';
+
 const ListEditor = Backbone.View.extend({
   events: {
     'click .form-element__remove-choice': 'removeChoice',

@@ -1,19 +1,25 @@
 import $ from 'jquery';
 
-const setupPubSub = function($) {
-  const o = $({});
+window.champaign.events = window.champaign.events || $({});
+const events = window.champaign.events;
 
-  $.subscribe = function() {
-    o.on.apply(o, arguments);
-  };
+export function subscribe() {
+  events.on.apply(events, arguments);
+}
 
-  $.unsubscribe = function() {
-    o.off.apply(o, arguments);
-  };
+export function unsubscribe() {
+  events.off.apply(events, arguments);
+}
 
-  $.publish = function() {
-    o.trigger.apply(o, arguments);
-  };
-};
+export function publish() {
+  events.trigger.apply(events, arguments);
+}
 
-setupPubSub($);
+export function setupPubSub(jQuery) {
+  if (!jQuery) throw new Error('$.publish and $.subscribe require jQuery');
+  Object.assign(jQuery, {
+    subscribe: subscribe.bind(events),
+    unsubscribe: unsubscribe.bind(events),
+    publish: publish.bind(events),
+  });
+}

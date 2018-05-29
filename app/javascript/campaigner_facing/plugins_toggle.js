@@ -1,4 +1,6 @@
+import Backbone from 'backbone';
 import setupOnce from './setup_once';
+import { subscribe } from '../shared/pub_sub';
 
 $(function() {
   let ActivationToggle = Backbone.View.extend({
@@ -57,7 +59,7 @@ $(function() {
     },
   });
 
-  $.subscribe('activation:toggle', function() {
+  subscribe('activation:toggle', function() {
     setupOnce('form.activation-toggle', ActivationToggle);
   });
 });
