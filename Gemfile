@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.4.1'
+ruby '2.5.1'
 
 gem 'aasm'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
@@ -10,7 +10,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'braintree', '~> 2.54.0'
 gem 'countries', require: 'countries/global'
 gem 'country_select'
-gem 'devise'
+gem 'devise', '~> 4.4.0'
 gem 'font-awesome-sass', '~> 4.7.0'
 gem 'geocoder'
 gem 'gocardless_pro'
