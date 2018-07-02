@@ -222,7 +222,7 @@ workflows:
           filters:
             branches:
               only:
-                - development
+                - whatsapp-deploy
                 - /^feature(?:\/|-|\.).+$/
 
       - build_docker_image:
@@ -232,7 +232,7 @@ workflows:
             branches:
               only:
                 - master
-                - development
+                - whatsapp-deploy
                 - /^feature(?:\/|-|\.).+$/
 
       - build_production_docker_image:
@@ -265,7 +265,7 @@ workflows:
           filters:
             branches:
               only:
-                - development
+                - whatsapp-deploy
 
       - deploy_feature:
           requires:
