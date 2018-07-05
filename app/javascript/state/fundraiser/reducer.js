@@ -90,7 +90,7 @@ export default (state: State = initialState, action: Action): State => {
       };
     }
     case 'change_amount':
-      const donationAmount = action.payload || undefined;
+      const donationAmount = Number(action.payload) || undefined;
       return { ...state, donationAmount };
     case 'change_step':
       return { ...state, currentStep: action.payload };
@@ -200,6 +200,12 @@ export function featuredAmountState(
 }
 
 const searchStringHandlers = {
+  currency: (state: State, currency: string): State => {
+    return {
+      ...state,
+      currency: supportedCurrency(currency, keys(state.donationBands)),
+    };
+  },
   hide_spm: function hideSavedPayments(state: State, value: string): State {
     if (value === '1') return { ...state, disableSavedPayments: true };
     else return state;
