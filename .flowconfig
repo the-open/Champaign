@@ -3,6 +3,7 @@
 <PROJECT_ROOT>/node_modules/eslint-plugin-jsx-a11y/.*
 <PROJECT_ROOT>/vendor/bundle/.*
 <PROJECT_ROOT>/node_modules/draft-js/.*
+<PROJECT_ROOT>/node_modules/.*/test/.*
 
 [include]
 
