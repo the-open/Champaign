@@ -6,8 +6,8 @@ import 'react-select/dist/react-select.css';
 import './SweetSelect.scss';
 
 export interface SelectOption {
-  label: any,
-  value: string,
+  label: any;
+  value: string;
 }
 
 // TODO: deduplicate this (also seen in SweetInput)
@@ -27,11 +27,9 @@ type Props = {
   className?: string,
 };
 
-export default class SweetSelect extends Component {
-  props: Props;
+type State = { filled: boolean, focused: boolean };
 
-  state: { filled: boolean, focused: boolean };
-
+export default class SweetSelect extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {

@@ -49,10 +49,7 @@ type OwnProps = {
   filters?: any,
 };
 
-class CallToolView extends Component {
-  state: OwnState;
-  props: OwnProps;
-
+class CallToolView extends Component<OwnProps, OwnState> {
   constructor(props: OwnProps) {
     super(props);
 

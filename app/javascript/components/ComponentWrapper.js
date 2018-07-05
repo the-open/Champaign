@@ -6,6 +6,7 @@ import enLocaleData from 'react-intl/locale-data/en';
 import deLocaleData from 'react-intl/locale-data/de';
 import frLocaleData from 'react-intl/locale-data/fr';
 import loadTranslations from '../util/TranslationsLoader';
+import type { Node } from 'react';
 
 function WrapInStore({ store, children }) {
   if (store) {
@@ -14,15 +15,15 @@ function WrapInStore({ store, children }) {
   return children;
 }
 
-export default class ComponentWrapper extends Component {
-  props: {
-    store?: Store,
-    children?: any,
-    locale: string,
-    messages?: { [key: string]: string },
-    optimizelyHook?: void => void,
-  };
+type Props = {
+  store?: Store,
+  children?: Node,
+  locale: string,
+  messages?: { [key: string]: string },
+  optimizelyHook?: void => void,
+};
 
+export default class ComponentWrapper extends Component<Props> {
   componentDidMount() {
     this.optimizelyHook();
   }

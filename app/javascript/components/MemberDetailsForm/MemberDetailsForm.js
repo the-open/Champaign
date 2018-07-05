@@ -7,12 +7,12 @@ import Button from '../Button/Button';
 import { updateForm } from '../../state/fundraiser/actions';
 import FieldShape from '../FieldShape/FieldShape';
 
-import type { Element } from 'react';
+import type { Node } from 'react';
 import type { Dispatch } from 'redux';
 import type { AppState } from '../../state';
 
-type OwnProps = {
-  buttonText?: Element<any> | string,
+type Props = {
+  buttonText?: Node,
   proceed?: () => void,
   fields: Object,
   formValues: Object,
@@ -22,16 +22,14 @@ type OwnProps = {
   form: Object,
   formId: number,
   updateForm: (form: Object) => void,
+} & $Shape<mapStateToProps>;
+
+type State = {
+  errors: any,
+  loading: boolean,
 };
 
-export class MemberDetailsForm extends Component {
-  props: OwnProps & $Shape<mapStateToProps>;
-
-  state: {
-    errors: any,
-    loading: boolean,
-  };
-
+export class MemberDetailsForm extends Component<Props, State> {
   static title = <FormattedMessage id="details" defaultMessage="details" />;
 
   HIDDEN_FIELDS = [
@@ -43,7 +41,7 @@ export class MemberDetailsForm extends Component {
     'referring_akid',
   ];
 
-  constructor(props: OwnProps) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -72,7 +70,7 @@ export class MemberDetailsForm extends Component {
     this.props.updateForm({ ...this.props.form, ...data });
   }
 
-  getFieldError(field: string): ?React$Element<FormattedMessage> {
+  getFieldError(field: string): Node {
     const error = this.state.errors[field];
     if (!error) return null;
     return <FormattedMessage {...error} />;
@@ -118,7 +116,7 @@ export class MemberDetailsForm extends Component {
     });
   }
 
-  submit(e: SyntheticEvent) {
+  submit(e: SyntheticEvent<HTMLButtonElement>) {
     this.setState({ loading: true });
     e.preventDefault();
     // HACKISH
@@ -156,7 +154,9 @@ export class MemberDetailsForm extends Component {
           return !this.recognizedMemberPresent();
         default:
           console.log(
-            `Unknown display_mode "${field.display_mode}" for field "${field.name}"`
+            `Unknown display_mode "${field.display_mode}" for field "${
+              field.name
+            }"`
           );
           return false;
       }
@@ -209,4 +209,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   updateForm: (form: Object) => dispatch(updateForm(form)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MemberDetailsForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MemberDetailsForm);

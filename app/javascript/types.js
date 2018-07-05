@@ -67,6 +67,8 @@ declare type ChampaignPage = {
   follow_up_liquid_layout_id?: number,
 };
 
+type ChampaignPaymentMethod = any;
+
 declare type ChampaignPersonalizationData = {
   locale: string,
   location: ChampaignLocation,

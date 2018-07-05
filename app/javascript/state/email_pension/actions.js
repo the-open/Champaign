@@ -1,17 +1,52 @@
+// @flow
+export type Fund = {
+  _id: string,
+  name: string,
+  email: string,
+  [key: string]: string,
+};
+export type EmailTargetState = {
+  name: string,
+  email: string,
+  isSubmitting: boolean,
+  emailSubject: string,
+  fundContact: string,
+  fundEmail: string,
+  fundContact: string,
+  fundId: string,
+  fund?: Fund,
+  country: string,
+  pensionFunds?: Fund[],
+};
+
+export type EmailTargetAction =
+  | { type: 'email_target:change_submitting', submitting: boolean }
+  | { type: 'email_target:change_body', emailBody: string }
+  | { type: 'email_target:change_country', country: string }
+  | { type: 'email_target:change_subject', emailSubject: string }
+  | { type: 'email_target:change_name', name: string }
+  | { type: 'email_target:change_email', email: string }
+  | { type: 'email_target:change_fund', fund?: Fund }
+  | { type: 'email_target:change_pension_funds', funds: any };
+
 const initialState = {
   name: '',
   email: '',
   isSubmitting: false,
   emailSubject: '',
+  emailBody: '',
   fundContact: '',
   fundEmail: '',
   fundContact: '',
   fundId: '',
-  fund: '',
+  fund: undefined,
   country: '',
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (
+  state: EmailTargetState = initialState,
+  action: EmailTargetAction
+): EmailTargetState => {
   switch (action.type) {
     case 'email_target:change_submitting':
       return { ...state, isSubmitting: action.submitting };
@@ -45,6 +80,7 @@ export const reducer = (state = initialState, action) => {
         fundEmail: fund.email,
         fundContact: fund.name,
         fundId: fund._id,
+        // $FlowIgnore
         fund: fund.fund,
       };
     case 'email_target:initialize':
@@ -55,34 +91,34 @@ export const reducer = (state = initialState, action) => {
   }
 };
 
-export const changeSubmitting = submitting => {
+export const changeSubmitting = (submitting: boolean) => {
   return { type: 'email_target:change_submitting', submitting };
 };
 
-export const changeBody = emailBody => {
+export const changeBody = (emailBody: string) => {
   return { type: 'email_target:change_body', emailBody };
 };
 
-export const changeCountry = country => {
+export const changeCountry = (country: string) => {
   return { type: 'email_target:change_country', country };
 };
 
-export const changeSubject = emailSubject => {
+export const changeSubject = (emailSubject: string) => {
   return { type: 'email_target:change_subject', emailSubject };
 };
 
-export const changeName = name => {
+export const changeName = (name: string) => {
   return { type: 'email_target:change_name', name };
 };
 
-export const changeEmail = email => {
+export const changeEmail = (email: string) => {
   return { type: 'email_target:change_email', email };
 };
 
-export const changeFund = fund => {
+export const changeFund = (fund?: Fund) => {
   return { type: 'email_target:change_fund', fund };
 };
 
-export const changePensionFunds = funds => {
+export const changePensionFunds = (funds: Fund[]) => {
   return { type: 'email_target:change_pension_funds', funds };
 };

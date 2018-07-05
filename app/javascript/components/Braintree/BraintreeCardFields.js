@@ -20,15 +20,13 @@ type OwnProps = {
   onFailure?: (data: any) => void,
 };
 
-class BraintreeCardFields extends Component {
-  props: OwnProps;
+type OwnState = {
+  hostedFields: ?HostedFieldsInstance,
+  cardType?: string,
+  errors: { [key: string]: boolean },
+};
 
-  state: {
-    hostedFields: ?HostedFieldsInstance,
-    cardType?: string,
-    errors: { [key: string]: boolean },
-  };
-
+class BraintreeCardFields extends Component<OwnProps, OwnState> {
   constructor(props: OwnProps) {
     super(props);
 
@@ -133,7 +131,7 @@ class BraintreeCardFields extends Component {
     );
   }
 
-  submit(event?: SyntheticEvent) {
+  submit(event?: SyntheticEvent<HTMLFormElement>) {
     if (event) event.preventDefault();
     this.resetErrors();
 

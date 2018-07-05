@@ -1,8 +1,6 @@
 [ignore]
-<PROJECT_ROOT>/node_modules/fbjs/.*
 <PROJECT_ROOT>/node_modules/eslint-plugin-jsx-a11y/.*
 <PROJECT_ROOT>/vendor/bundle/.*
-<PROJECT_ROOT>/node_modules/draft-js/.*
 <PROJECT_ROOT>/node_modules/.*/test/.*
 
 [include]
@@ -14,3 +12,9 @@ app/javascript/types.js
 suppress_comment=\\(.\\|\n\\)*\\s*\\$FlowIgnore.*
 module.name_mapper='.*\(.scss\)' -> 'empty/object'
 module.name_mapper='.*\(.yml\)' -> 'empty/object'
+
+[untyped]
+.*/node_modules/draft-js/lib/DraftEditor.react.js.flow
+.*/node_modules/draft-js/lib/ContentBlock.js.flow
+.*/node_modules/draft-js/lib/ContentBlockNode.js.flow
+.*/node_modules/draft-js/lib/DraftEditorLeaf.react.js.flow

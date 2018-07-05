@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
@@ -15,24 +15,14 @@ import {
   changeStep,
   setSubmitting,
 } from '../state/fundraiser/actions';
+import type { FundraiserAction } from '../state/fundraiser/types';
 
 import type { Dispatch } from 'redux';
 import type { AppState } from '../state';
 import type { Member, Fundraiser } from '../state';
 
-type OwnProps = {
-  fundraiser: Fundraiser,
-  member: Member,
-  page: ChampaignPage,
-  changeStep: number => void,
-  selectAmount: (?number) => void,
-  selectCurrency: string => void,
-  setSubmitting: boolean => void,
-};
-
-export class FundraiserView extends Component {
-  props: OwnProps;
-
+type OwnProps = $Shape<mapStateToProps> & $Shape<mapDispatchToProps>;
+export class FundraiserView extends PureComponent<OwnProps> {
   componentDidMount() {
     const { donationAmount } = this.props.fundraiser;
 
@@ -158,11 +148,18 @@ export const mapStateToProps = (state: AppState) => ({
   page: state.page,
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  changeStep: (step: number) => dispatch(changeStep(step)),
-  selectAmount: (amount: ?number) => dispatch(changeAmount(amount)),
-  selectCurrency: (currency: string) => dispatch(changeCurrency(currency)),
-  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
-});
+export function mapDispatchToProps(
+  dispatch: Dispatch<FundraiserAction>
+): Object {
+  return {
+    changeStep: (step: number) => dispatch(changeStep(step)),
+    selectAmount: (amount: ?number) => dispatch(changeAmount(amount)),
+    selectCurrency: (currency: string) => dispatch(changeCurrency(currency)),
+    setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
+  };
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FundraiserView);

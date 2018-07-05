@@ -6,8 +6,16 @@ import I18n from 'champaign-i18n';
 import ee from '../shared/pub_sub';
 import CampaignTile from '../components/CampaignTile';
 
-class RecommendPagesView extends Component {
-  constructor(props) {
+type Page = {
+  id: string,
+  [key: string]: any,
+};
+type Props = { pageId: string };
+type State = {
+  pages: Page[],
+};
+class RecommendPagesView extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       pages: [],
@@ -50,5 +58,6 @@ class RecommendPagesView extends Component {
 }
 
 ee.on('champaign:recommend_pages:init', (root: string, props) => {
-  render(<RecommendPagesView {...props} />, document.getElementById(root));
+  const element = document.getElementById(root);
+  if (element) render(<RecommendPagesView {...props} />, element);
 });

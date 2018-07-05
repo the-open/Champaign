@@ -23,13 +23,11 @@ type Props = {
   selectAmount: (amount: ?number) => void,
   featuredAmount?: number,
 };
-
-export class DonationBands extends Component {
-  props: Props;
-
-  state: {
-    customAmount?: number,
-  };
+type State = {
+  customAmount?: number,
+};
+export class DonationBands extends Component<Props, State> {
+  customInputElement: any;
 
   constructor(props: Props) {
     super(props);
@@ -37,6 +35,8 @@ export class DonationBands extends Component {
     this.state = {
       customAmount: props.customAmount,
     };
+
+    this.customInputElement = React.createRef();
   }
 
   onButtonClicked(amount: number = 0) {
@@ -65,6 +65,17 @@ export class DonationBands extends Component {
     });
   }
 
+  addFormatting = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    e.target.value = this.customFieldDisplay();
+  };
+
+  removeFormatting = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const number = value.replace(/\D/g, '');
+    const amount = number ? parseFloat(number) : undefined;
+    e.target.value = amount ? amount.toString() : '';
+  };
+
   render() {
     const { amounts } = this.props;
     return (
@@ -80,17 +91,17 @@ export class DonationBands extends Component {
         ))}
         <input
           type="tel"
-          ref="customAmount"
+          ref={this.customInputElement}
           id="DonationBands-custom-amount"
           className="DonationBands__input"
           placeholder={this.props.intl.formatMessage({
             id: 'fundraiser.other_amount',
           })}
           pattern={/^[0-9]+$/}
-          value={this.customFieldDisplay()}
-          onChange={(e: SyntheticInputEvent) =>
-            this.onInputUpdated(e.target.value)
-          }
+          value={this.state.customAmount}
+          onChange={e => this.onInputUpdated(e.target.value)}
+          onFocus={this.removeFormatting}
+          onBlur={this.addFormatting}
         />
       </div>
     );

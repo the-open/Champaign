@@ -37,7 +37,7 @@
     "enzyme-to-json": "^3.3.1",
     "eventemitter3": "^3.1.0",
     "faker": "^4.1.0",
-    "flow-bin": "^0.52.0",
+    "flow-bin": "^0.75.0",
     "husky": "^0.14.3",
     "intl": "^1.2.5",
     "ismobilejs": "^0.4.1",
@@ -88,5 +88,14 @@
       "<rootDir>/spec/jest/setupJest",
       "babel-polyfill"
     ]
+  },
+  "resolutions": {
+    "classnames": "2.2.6",
+    "jquery": "3.3.1",
+    "lodash": "4.17.10",
+    "prop-types": "15.6.2",
+    "core-js": "2.5.7",
+    "fbjs": "0.8.17",
+    "lodash-es": "4.17.10"
   }
 }

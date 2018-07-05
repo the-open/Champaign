@@ -15,7 +15,7 @@ import type { AppState, PaymentMethod, Fundraiser } from '../../state';
 
 import './ExpressDonation.scss';
 
-type OwnProps = {
+type Props = {
   hidden: boolean,
   fundraiser: Fundraiser,
   page: ChampaignPage,
@@ -26,16 +26,13 @@ type OwnProps = {
   setSubmitting: boolean => void,
 };
 
-type OwnState = {
+type State = {
   currentPaymentMethod: ?PaymentMethod,
   submitting: boolean,
 };
 
-export class ExpressDonation extends Component {
-  props: OwnProps;
-  state: OwnState;
-
-  constructor(props: OwnProps) {
+export class ExpressDonation extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -203,4 +200,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   setRecurring: (value: boolean) => dispatch(setRecurring(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpressDonation);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExpressDonation);

@@ -12,9 +12,7 @@ type State = {
   newPensionFundNameError: boolean,
 };
 
-export default class SuggestFund extends Component {
-  state: State;
-
+export default class SuggestFund extends Component<*, State> {
   constructor() {
     super();
     this.state = {
@@ -60,7 +58,7 @@ export default class SuggestFund extends Component {
     }));
   };
 
-  submit = (e: SyntheticEvent) => {
+  submit = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (this.state.newPensionFundName.trim() === '') {
       this.setState({ newPensionFundNameError: true });
@@ -83,15 +81,14 @@ export default class SuggestFund extends Component {
       <div className="email-target-action">
         <div className="email__target-suggest-fund">
           <p>
-            <a onClick={this.toggle}>Can't find your pension fund?</a>
+            <a onClick={this.toggle}>{`Can't find your pension fund?`}</a>
           </p>
         </div>
         {this.state.showForm && (
           <div className="email-target_box">
             <h3>
               <span>
-                We're sorry you couldn't find your pension fund. Send us its
-                name and we'll update our records.
+                {`We're sorry you couldn't find your pension fund. Send us its name and we'll update our records.`}
               </span>
             </h3>
             <div className="form__group">

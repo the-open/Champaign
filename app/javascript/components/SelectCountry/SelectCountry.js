@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { indexOf } from 'lodash';
 import SweetSelect from '../SweetSelect/SweetSelect';
 import countriesEn from './countries/en.json';
@@ -7,7 +7,7 @@ import countriesDe from './countries/de.json';
 import countriesEs from './countries/es.json';
 import countriesFr from './countries/fr.json';
 import { injectIntl, intlShape } from 'react-intl';
-import type { Element } from 'react';
+import type { Node } from 'react';
 
 export type Country = { value: string, label: string };
 export const countries = countriesEn;
@@ -19,7 +19,7 @@ type Props = {
   value?: string,
   onChange?: (value: any) => void,
   options?: Country[],
-  label?: Element<any> | string,
+  label?: Node | string,
   disabled?: boolean,
   multiple?: boolean,
   intl: intlShape,
@@ -35,8 +35,7 @@ const countriesByLocale = {
   fr: countriesFr,
 };
 
-export class SelectCountry extends Component {
-  props: Props;
+export class SelectCountry extends PureComponent<Props> {
   focus() {
     if (!this.refs.select) return;
     this.refs.select.focus();
@@ -53,8 +52,8 @@ export class SelectCountry extends Component {
         if (typeof window.Intl.Collator === 'function') {
           return new window.Intl.Collator(locale).compare(a.label, b.label);
         }
-        if (a.label > b.label) return 1;
-        if (a.label < b.label) return -1;
+        if (a.label.toString() > b.label.toString()) return 1;
+        if (a.label.toString() < b.label.toString()) return -1;
         return 0;
       });
 

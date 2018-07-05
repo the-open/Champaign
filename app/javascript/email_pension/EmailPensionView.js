@@ -248,5 +248,8 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 });
 
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(EmailPensionView)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(EmailPensionView)
 );

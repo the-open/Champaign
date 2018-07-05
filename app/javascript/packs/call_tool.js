@@ -5,23 +5,26 @@ import { camelizeKeys } from '../util/util';
 import Wrapper from '../components/ComponentWrapper';
 import CallToolView from '../call_tool/CallToolView';
 
-function mount(root, props, Component = CallToolView) {
+function mount(element, props, Component = CallToolView) {
   render(
     <Wrapper locale={props.locale} optimizelyHook={window.optimizelyHook}>
       <Component {...props} />
     </Wrapper>,
-    document.getElementById(root)
+    element
   );
 }
 
-window.mountCallTool = (root: string, props: any) => {
-  props = camelizeKeys(props);
+window.mountCallTool = (root: string, _props: any) => {
+  const element = document.getElementById(root);
 
-  mount(root, props);
+  if (element) {
+    const props = camelizeKeys(_props);
+    mount(element, props);
 
-  if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept('../call_tool/CallToolView', () => {
-      mount(root, props, require('../call_tool/CallToolView').default);
-    });
+    if (process.env.NODE_ENV === 'development' && module.hot) {
+      module.hot.accept('../call_tool/CallToolView', () => {
+        mount(element, props, require('../call_tool/CallToolView').default);
+      });
+    }
   }
 };

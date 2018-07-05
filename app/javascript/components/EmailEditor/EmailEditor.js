@@ -14,9 +14,7 @@ import './EmailEditor.scss';
 
 const MAX_SUBJECT_LENGTH = 64;
 
-export default class EmailEditor extends Component {
-  props: Props;
-  state: State;
+export default class EmailEditor extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 

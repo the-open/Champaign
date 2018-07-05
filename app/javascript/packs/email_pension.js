@@ -21,14 +21,17 @@ type emailPensionInitialState = {
 
 const store: Store<AppState, *> = window.champaign.store;
 
-window.mountEmailPension = (root: string, props: emailPensionInitialState) => {
-  props = camelizeKeys(props);
-  store.dispatch({ type: 'email_target:initialize', payload: props });
+window.mountEmailPension = (root: string, _props: emailPensionInitialState) => {
+  const element = document.getElementById(root);
+  if (element) {
+    const props = camelizeKeys(_props);
+    store.dispatch({ type: 'email_target:initialize', payload: props });
 
-  render(
-    <ComponentWrapper store={store} locale={props.locale}>
-      <EmailPensionView {...props} />
-    </ComponentWrapper>,
-    document.getElementById(root)
-  );
+    render(
+      <ComponentWrapper store={store} locale={props.locale}>
+        <EmailPensionView {...props} />
+      </ComponentWrapper>,
+      element
+    );
+  }
 };

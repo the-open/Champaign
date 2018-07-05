@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 import faker from 'faker';
 import { sample } from 'lodash';
 import {
@@ -7,7 +7,7 @@ import {
   valuesForFilter,
 } from './call_tool_helpers';
 
-export const targets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(id => {
+export const targets: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(id => {
   const country = id < 5 ? 'United States' : 'Canada';
   let state;
   if (country === 'United States') {

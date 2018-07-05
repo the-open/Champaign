@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Backbone from 'backbone';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import Popup from 'reactjs-popup';
@@ -15,17 +15,9 @@ const style = {
   padding: 30,
 };
 
-type Props = {
-  open: boolean,
-  isRequiredExisting: boolean,
-  member: Member,
-  toggleModal: boolean => void,
-  changeConsent: boolean => void,
-};
+type Props = $Shape<mapStateToProps> & $Shape<mapDispatchToProps>;
 
-class ExistingMemberConsent extends Component {
-  props: Props;
-
+class ExistingMemberConsent extends PureComponent<Props> {
   closeModal = () => this.props.toggleModal(false);
 
   submit = (value?: boolean) => {
@@ -77,11 +69,12 @@ const mapStateToProps = (state: AppState) => ({
   member: state.member,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): Object => ({
   toggleModal: (value: boolean) => dispatch(toggleModal(value)),
   changeConsent: (value: boolean) => dispatch(changeConsent(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ExistingMemberConsent
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExistingMemberConsent);

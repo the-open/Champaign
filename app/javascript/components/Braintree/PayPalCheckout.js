@@ -1,11 +1,11 @@
 // @flow
 import { Component } from 'react';
-import paypal from 'braintree-web/paypal';
+import paypalCheckout from 'braintree-web/paypal-checkout';
 import type {
-  BraintreeError,
+  VaultFlowOptions,
+  CheckoutFlowOptions,
+  PayPalCheckout,
   Client,
-  PayPal as IPayPal,
-  PayPalOptions,
 } from 'braintree-web';
 
 type OwnProps = {
@@ -18,7 +18,7 @@ type OwnProps = {
 };
 
 type OwnState = {
-  paypalInstance: ?IPayPal,
+  paypalInstance: ?PayPalCheckout,
   disabled: boolean,
 };
 
@@ -41,11 +41,11 @@ export default class PayPal extends Component<OwnProps, OwnState> {
     }
   }
 
-  createPayPalInstance(client: Client) {
-    paypal.create({ client }, this.onPayPalCreate);
+  createPayPalInstance(client: any) {
+    paypalCheckout.create({ client }, this.onPayPalCreate);
   }
 
-  onPayPalCreate = (error: BraintreeError, paypalInstance: any) => {
+  onPayPalCreate = (error: any, paypalInstance: any) => {
     if (error) {
       throw error;
     }
@@ -63,12 +63,12 @@ export default class PayPal extends Component<OwnProps, OwnState> {
     }
   }
 
-  flow(): $PropertyType<PayPalOptions, 'flow'> {
+  flow(): 'vault' | 'checkout' {
     if (this.props.vault) return 'vault';
     return 'checkout';
   }
 
-  tokenizeOptions(): PayPalOptions {
+  tokenizeOptions(): VaultFlowOptions | CheckoutFlowOptions {
     const { amount, currency, vault } = this.props;
     if (vault) {
       return { flow: 'vault' };
@@ -78,18 +78,11 @@ export default class PayPal extends Component<OwnProps, OwnState> {
 
   submit() {
     const paypalInstance = this.state.paypalInstance;
-    return new Promise((resolve, reject) => {
-      if (!paypalInstance) return reject();
-
-      paypalInstance.tokenize(
-        this.tokenizeOptions(),
-        (error: ?BraintreeError, payload: PayPalTokenizePayload) => {
-          if (error) return reject(error);
-          resolve(payload);
-        }
-      );
-    });
+    if (paypalInstance)
+      return paypalInstance.createPayment(this.tokenizeOptions());
   }
 
-  render = () => null;
+  render() {
+    return null;
+  }
 }

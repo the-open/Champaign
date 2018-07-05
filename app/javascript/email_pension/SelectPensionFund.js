@@ -11,6 +11,9 @@ import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import SelectCountry from '../components/SelectCountry/SelectCountry';
 import SuggestFund from './SuggestFund';
+import type { AppState } from '../state';
+import type { Dispatch } from 'redux';
+import type { Fund } from '../state/email_pension/actions';
 
 import {
   changeCountry,
@@ -23,33 +26,10 @@ type Props = {
     country: any,
     fund: any,
   },
-} & typeof mapStateToProps &
-  typeof mapDispatchToProps;
+} & $Shape<mapStateToProps> &
+  $Shape<mapDispatchToProps>;
 
-const SUPPORTED_COUNTRIES: string[] = [
-  'AU',
-  'BE',
-  'CA',
-  'CH',
-  'DE',
-  'DK',
-  'ES',
-  'FI',
-  'FR',
-  'GB',
-  'IE',
-  'IS',
-  'IT',
-  'NL',
-  'NO',
-  'PT',
-  'SE',
-  'US',
-];
-
-class SelectPensionFund extends Component {
-  props: Props;
-
+class SelectPensionFund extends Component<Props> {
   componentWillMount() {
     this.getPensionFunds(this.props.country);
   }
@@ -122,7 +102,7 @@ class SelectPensionFund extends Component {
   }
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: AppState) {
   return {
     country: state.emailTarget.country,
     pensionFunds: state.emailTarget.pensionFunds,
@@ -131,12 +111,36 @@ function mapStateToProps(state: any) {
   };
 }
 
-function mapDispatchToProps(disp) {
+function mapDispatchToProps(disp: Dispatch<*>): Object {
   return {
     changeCountry: (country: string) => disp(changeCountry(country)),
-    changePensionFunds: (funds: string[]) => disp(changePensionFunds(funds)),
-    changeFund: (fund: string) => disp(changeFund(fund)),
+    changePensionFunds: (funds: Fund[]) => disp(changePensionFunds(funds)),
+    changeFund: (fund: Fund) => disp(changeFund(fund)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectPensionFund);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SelectPensionFund);
+
+const SUPPORTED_COUNTRIES: string[] = [
+  'AU',
+  'BE',
+  'CA',
+  'CH',
+  'DE',
+  'DK',
+  'ES',
+  'FI',
+  'FR',
+  'GB',
+  'IE',
+  'IS',
+  'IT',
+  'NL',
+  'NO',
+  'PT',
+  'SE',
+  'US',
+];

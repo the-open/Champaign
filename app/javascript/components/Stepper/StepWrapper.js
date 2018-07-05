@@ -1,28 +1,27 @@
 // @flow
-import React, { Component, Children, cloneElement } from "react";
-import Stepper from "./Stepper";
-import ShowIf from "../ShowIf";
-import _ from "lodash";
-import "./Stepper.scss";
+import React, { Component, Children, cloneElement } from 'react';
+import Stepper from './Stepper';
+import ShowIf from '../ShowIf';
+import _ from 'lodash';
+import './Stepper.scss';
 
-type OwnProps = {
+type Props = {
   changeStep: (step: number) => void,
   currentStep: number,
   submitting: boolean,
   title: string,
-  children?: any
+  children?: any,
 };
 
-export default class StepWrapper extends Component {
-  props: OwnProps;
-  state: {
-    steps: string[]
-  };
+type State = {
+  steps: string[],
+};
 
-  constructor(props: OwnProps) {
+export default class StepWrapper extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
-      steps: []
+      steps: [],
     };
   }
 
@@ -41,7 +40,7 @@ export default class StepWrapper extends Component {
   normalState() {
     const stepperProps = {
       ...this.props,
-      steps: this.getTitles()
+      steps: this.getTitles(),
     };
     return (
       <div className="StepWrapper-root">
@@ -62,7 +61,9 @@ export default class StepWrapper extends Component {
         <h1 className="submission-interstitial__title">
           <i className="fa fa-spin fa-cog" />Processing
         </h1>
-        <h4>Please do not close this tab<br />or use the back button.</h4>
+        <h4>
+          Please do not close this tab<br />or use the back button.
+        </h4>
       </div>
     );
   }
@@ -70,9 +71,7 @@ export default class StepWrapper extends Component {
   render() {
     return (
       <div>
-        <ShowIf condition={!this.props.submitting}>
-          {this.normalState()}
-        </ShowIf>
+        <ShowIf condition={!this.props.submitting}>{this.normalState()}</ShowIf>
         <ShowIf condition={this.props.submitting}>
           {this.submissionState()}
         </ShowIf>

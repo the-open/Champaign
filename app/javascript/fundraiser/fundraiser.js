@@ -45,7 +45,7 @@ export default class Fundraiser {
     this.el = options.el;
     this.store = options.store;
     this.config = options.config;
-    if (this.el) this._mount();
+    this._mount();
   }
 
   state(): $PropertyType<AppState, 'fundraiser'> {
@@ -76,16 +76,18 @@ export default class Fundraiser {
   }
 
   _mount() {
-    render(
-      <ComponentWrapper
-        store={this.store}
-        locale={this.config.locale}
-        optimizelyHook={window.optimizelyHook}
-      >
-        <LoadableFundraiser />,
-      </ComponentWrapper>,
-      this.el
-    );
+    if (this.el) {
+      render(
+        <ComponentWrapper
+          store={this.store}
+          locale={this.config.locale}
+          optimizelyHook={window.optimizelyHook}
+        >
+          <LoadableFundraiser />,
+        </ComponentWrapper>,
+        this.el
+      );
+    }
   }
 }
 

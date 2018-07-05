@@ -70,10 +70,7 @@ type OwnState = {
   errors: any[],
   waitingForGoCardless: boolean,
 };
-export class Payment extends Component {
-  props: OwnProps;
-  state: OwnState;
-
+export class Payment extends Component<OwnProps, OwnState> {
   static title = <FormattedMessage id="payment" defaultMessage="payment" />;
 
   constructor(props: OwnProps) {
@@ -381,14 +378,16 @@ export class Payment extends Component {
             onChange={p => this.selectPaymentType(p)}
           />
 
-          <PayPal
-            ref="paypal"
-            amount={donationAmount}
-            currency={currency}
-            client={this.state.client}
-            vault={recurring || storeInVault}
-            onInit={() => this.paymentInitialized('paypal')}
-          />
+          {donationAmount && (
+            <PayPal
+              ref="paypal"
+              amount={donationAmount}
+              currency={currency}
+              client={this.state.client}
+              vault={recurring || storeInVault}
+              onInit={() => this.paymentInitialized('paypal')}
+            />
+          )}
 
           <BraintreeCardFields
             ref="card"
@@ -502,4 +501,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   setPaymentType: (value: PaymentType) => dispatch(setPaymentType(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Payment);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Payment);

@@ -22,21 +22,21 @@ export default combineReducers(reducers);
 
 // import types
 import type { Member } from './member/reducer';
-import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
+import type { EmailTargetState } from './email_pension/actions';
+import type { Fundraiser } from './fundraiser/types';
 import type { PaymentMethod } from './paymentMethods/reducer';
 import type { ConsentState } from './consent';
 import type { State as ExtraActionFieldsState } from './extraActionFields';
 
 export type AppState = {
-  member: Member,
-  fundraiser: Fundraiser,
-  paymentMethods: PaymentMethod[],
-  page: ChampaignPage,
   consent: ConsentState,
+  emailTarget: EmailTargetState,
   extraActionFields: ExtraActionFieldsState,
+  fundraiser: Fundraiser,
+  member: Member,
+  page: ChampaignPage,
+  paymentMethods: PaymentMethod[],
 };
-
-type ChampaignPaymentMethod = any;
 
 export type FormField = {
   id: number,

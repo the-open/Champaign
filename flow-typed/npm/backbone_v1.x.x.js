@@ -1,5 +1,5 @@
-// flow-typed signature: fb5b318015ce43b56757be011685e6bd
-// flow-typed version: 2e4abfd1ba/backbone_v1.x.x/flow_>=v0.25.x
+// flow-typed signature: ba506076507fa389f4f828349e657080
+// flow-typed version: 60ea71b942/backbone_v1.x.x/flow_>=v0.25.x
 
 type Comparator<T> = (attr: string) => any | ((attrA: T, attrB: T) => number);
 

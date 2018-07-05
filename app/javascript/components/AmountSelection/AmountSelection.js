@@ -4,15 +4,15 @@ import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
 import ee from '../../shared/pub_sub';
-
 import CurrencyAmount from '../../components/CurrencyAmount';
+import type { Node } from 'react';
 
 export type OwnProps = {
   donationAmount?: number,
   donationBands: { [id: string]: number[] },
   donationFeaturedAmount?: number,
   currency: string,
-  nextStepTitle?: mixed,
+  nextStepTitle?: Node,
   selectAmount: (amount: ?number) => void,
   changeCurrency: (currency: string) => void,
   proceed: () => void,
@@ -23,10 +23,7 @@ export type OwnState = {
   currencyDropdownVisible: boolean,
 };
 
-export default class AmountSelection extends Component {
-  props: OwnProps;
-  state: OwnState;
-
+export default class AmountSelection extends Component<OwnProps, OwnState> {
   static title(amount: ?number, currency: string): any {
     if (amount == null) {
       return (
@@ -105,9 +102,7 @@ export default class AmountSelection extends Component {
           <select
             value={this.props.currency}
             className="AmountSelection__currency-selector"
-            onChange={(e: SyntheticInputEvent) =>
-              this.onSelectCurrency(e.target.value)
-            }
+            onChange={e => this.onSelectCurrency(e.target.value)}
           >
             {Object.keys(this.props.donationBands).map(currency => {
               return (

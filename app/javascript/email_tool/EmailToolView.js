@@ -64,10 +64,7 @@ function emailTargetAsSelectOption(target: EmailTarget): SelectOption {
   };
 }
 
-export default class EmailToolView extends Component {
-  props: Props;
-  state: State;
-
+export default class EmailToolView extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -111,9 +108,9 @@ export default class EmailToolView extends Component {
   // Attempt to send the email on submit. If successful, we call the
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
-  onSubmit = (e: SyntheticEvent) => {
+  onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.setState(s => ({ ...s, isSubmitting: true, errors: [] }));
+    this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
       () => {
         this.setState(s => ({ ...s, isSubmitting: false }));

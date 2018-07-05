@@ -9,23 +9,15 @@ import { changeConsent } from '../state/consent';
 import type { AppState } from '../state/reducers';
 import './ConsentComponent.css';
 
-type Props = {
-  // active: if true, the component will be rendered.
-  active: boolean,
-  // hidden: indicates that the component, if rendered, needs to be hidden. it
-  //   uses the `hidden-irrelevant` class to hide the component.
-  hidden: boolean,
-  // consented: the selected value for this form.
-  consented: ?boolean,
-  // variant: applied as a css class, used to style the input elements
-  variant: string,
-  // changeConsent: dispatches the change consent action.
-  changeConsent: (value: boolean) => void,
-};
+// active: if true, the component will be rendered.
+// hidden: indicates that the component, if rendered, needs to be hidden. it
+//         uses the `hidden-irrelevant` class to hide the component.
+// consented: the selected value for this form.
+// variant: applied as a css class, used to style the input elements
+// changeConsent: dispatches the change consent action.
+type Props = $Shape<mapStateToProps> & $Shape<mapDispatchToProps>;
 
-class ConsentComponent extends PureComponent {
-  props: Props;
-
+class ConsentComponent extends PureComponent<Props> {
   changeConsent = (consented: boolean) => {
     this.props.changeConsent(consented);
   };
@@ -99,8 +91,11 @@ const mapStateToProps = ({ member, consent }: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): Object => ({
   changeConsent: (value: boolean) => dispatch(changeConsent(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConsentComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConsentComponent);

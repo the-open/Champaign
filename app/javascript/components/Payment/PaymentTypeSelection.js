@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -7,16 +7,13 @@ import PaymentMethodWrapper from '../ExpressDonation/PaymentMethodWrapper';
 import type { AppState } from '../../state';
 import type { PaymentType } from '../../state/fundraiser/types';
 
-type Props = {
+type OwnProps = {
   disabled?: boolean,
-  currentPaymentType?: string,
-  onChange: (paymentType: string) => void,
-  showDirectDebit: boolean,
-  directDebitOnly: boolean,
+  currentPaymentType?: PaymentType,
+  onChange: (paymentType: PaymentType) => void,
 };
-export class PaymentTypeSelection extends Component {
-  props: Props;
-
+type Props = OwnProps & $Shape<mapStateToProps>;
+export class PaymentTypeSelection extends PureComponent<Props> {
   showCardAndPaypal() {
     if (this.props.directDebitOnly && !this.props.showDirectDebit) return true;
     if (this.props.directDebitOnly) return false;
@@ -74,7 +71,8 @@ export class PaymentTypeSelection extends Component {
   }
 }
 
-export default connect((state: AppState) => ({
+const mapStateToProps = (state: AppState) => ({
   showDirectDebit: state.fundraiser.showDirectDebit,
   directDebitOnly: state.fundraiser.directDebitOnly,
-}))(PaymentTypeSelection);
+});
+export default connect(mapStateToProps)(PaymentTypeSelection);

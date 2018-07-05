@@ -43,7 +43,10 @@ export type FundraiserAction =
   | { type: 'change_amount', payload: ?number }
   | { type: 'change_currency', payload: string }
   | { type: 'change_step', payload: number }
+  | { type: 'login_member', payload: { formValues: { [key: string]: string } } }
   | { type: 'preselect_amount', payload: boolean }
+  | { type: 'proceed_step' }
+  | { type: 'reset_member' }
   | { type: 'set_direct_debit_only', payload: boolean }
   | { type: 'set_donation_bands', payload: DonationBands }
   | { type: 'set_payment_type', payload: PaymentType }

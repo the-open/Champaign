@@ -10,8 +10,7 @@ type Props = {
   shortLabels?: boolean,
 };
 
-export class ConsentControls extends PureComponent {
-  props: Props;
+export class ConsentControls extends PureComponent<Props> {
   render() {
     const { shortLabels, consented } = this.props;
     const acceptClass = classnames({
