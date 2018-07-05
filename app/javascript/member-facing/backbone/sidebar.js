@@ -44,10 +44,12 @@ const Sidebar = Backbone.View.extend({
       maxHeight -= $title.outerHeight();
     }
     const main = this.$(`.${this.baseClass}__main`);
-    const overflow = main[0].scrollHeight > maxHeight ? 'scroll' : 'visible';
-
-    main.css('overflow', overflow);
-    main.css('max-height', `${maxHeight}px`);
+    if (main.length) {
+      const overflow =
+        main.get(0).scrollHeight > maxHeight ? 'scroll' : 'visible';
+      main.css('overflow', overflow);
+      main.css('max-height', `${maxHeight}px`);
+    }
   },
 
   positionBarTop() {

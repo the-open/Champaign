@@ -13,12 +13,13 @@
         el: document.getElementById('fundraiser-component'),
         store: window.champaign.store,
         config: {
+          fields: {{ plugins.fundraiser[ref].fields | jsonify }},
+          freestanding: {% if freestanding %} true {% else %} false {% endif %},
+          locale: '{{locale}}',
           pageId: "{{ id }}",
-          title: {% if fundraiser_title %} "{{ fundraiser_title }}" {% else %} "{{ plugins.fundraiser[ref].title }}" {% endif %},
           preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
           recurringDefault: "{{ plugins.fundraiser[ref].recurring_default }}",
-          fields: {{ plugins.fundraiser[ref].fields | jsonify }},
-          freestanding: {% if freestanding %} true {% else %} false {% endif %}
+          title: {% if fundraiser_title %} "{{ fundraiser_title }}" {% else %} "{{ plugins.fundraiser[ref].title }}" {% endif %},
         }
       });
       window.setTimeout(function(){

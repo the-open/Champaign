@@ -2,12 +2,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 import Loadable from 'react-loadable';
+import ComponentWrapper from '../components/ComponentWrapper';
 import type { Store } from 'redux';
 import type { AppState } from '../state';
 import type {
   FundraiserAction,
   DonationBands,
 } from '../state/fundraiser/types';
+import type { Field } from '../components/FieldShape/FieldShape';
 import {
   changeAmount,
   changeCurrency,
@@ -20,23 +22,30 @@ import {
   showDirectDebit,
 } from '../state/fundraiser/actions';
 
-const LoadableFundraiser = Loadable({
-  loader: () => import('./FundraiserView'),
-  loading: 'Loading Sidebar...',
-});
-
 type FundraiserConfig = {
+  fields: Field[],
+  freestanding?: boolean,
+  locale: string,
+  pageId: string,
+  preselectAmount: boolean,
+  recurringDefault: string,
+  title: string,
+};
+type FundraiserOptions = {
   el: ?HTMLElement,
   store: Store<AppState, FundraiserAction>,
+  config: FundraiserConfig,
 };
 
 export default class Fundraiser {
   el: ?HTMLElement;
   store: Store<AppState, FundraiserAction>;
-  constructor(config: FundraiserConfig) {
-    this.el = config.el;
-    this.store = config.store;
-    if (this.el) render(<LoadableFundraiser />, this.el);
+  config: FundraiserConfig;
+  constructor(options: FundraiserOptions) {
+    this.el = options.el;
+    this.store = options.store;
+    this.config = options.config;
+    if (this.el) this._mount();
   }
 
   state(): $PropertyType<AppState, 'fundraiser'> {
@@ -65,10 +74,22 @@ export default class Fundraiser {
     if (donationBands) this.store.dispatch(setDonationBands(donationBands));
     return this.state().donationBands;
   }
+
+  _mount() {
+    render(
+      <ComponentWrapper
+        store={this.store}
+        locale={this.config.locale}
+        optimizelyHook={window.optimizelyHook}
+      >
+        <LoadableFundraiser />,
+      </ComponentWrapper>,
+      this.el
+    );
+  }
 }
 
-// Usage:
-const myFundraiser = new Fundraiser({
-  el: document.getElementById('fundraiser-container'),
-  store: window.champaign.store,
+const LoadableFundraiser = Loadable({
+  loader: () => import('./FundraiserView'),
+  loading: () => 'Loading Sidebar...',
 });
