@@ -9,31 +9,18 @@
 
   <script type="text/javascript">
     $(function() {
-      var global = window.champaign.personalization;
-      var data = {
-        el: 'fundraiser-component',
-        paymentMethods: global.paymentMethods,
-        member: global.member,
-        locale: '{{locale}}',
-        fundraiser: {
+      window.champaign.myFundraiser = new window.champaign.Fundraiser({
+        el: document.getElementById('fundraiser-component'),
+        store: window.champaign.store,
+        config: {
           pageId: "{{ id }}",
-          currency: global.urlParams.currency || global.location.currency,
-          donationBands: global.donationBands,
-          showDirectDebit: global.showDirectDebit,
-          formValues: global.formValues,
-          formId: "{{ plugins.fundraiser[ref].form_id }}",
-          outstandingFields: global.outstandingFields,
-        {% if fundraiser_title %}
-          title: "{{ fundraiser_title }}",
-        {% else %}
-          title: "{{ plugins.fundraiser[ref].title }}",
-        {% endif %}
+          title: {% if fundraiser_title %} "{{ fundraiser_title }}" {% else %} "{{ plugins.fundraiser[ref].title }}" {% endif %},
           preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
+          recurringDefault: "{{ plugins.fundraiser[ref].recurring_default }}",
           fields: {{ plugins.fundraiser[ref].fields | jsonify }},
-          recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
           freestanding: {% if freestanding %} true {% else %} false {% endif %}
         }
-      };
+      });
       window.setTimeout(function(){
         champaign.overlayToggle = new champaign.OverlayToggle();
       {% unless freestanding %}
@@ -41,7 +28,6 @@
       {% endunless %}
       }, 100);
 
-      mountFundraiser('fundraiser-component', data);
     })
   </script>
 {% endif %}

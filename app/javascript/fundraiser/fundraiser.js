@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { render } from 'react-dom';
+import Loadable from 'react-loadable';
 import type { Store } from 'redux';
 import type { AppState } from '../state';
 import type {
@@ -19,18 +20,23 @@ import {
   showDirectDebit,
 } from '../state/fundraiser/actions';
 
+const LoadableFundraiser = Loadable({
+  loader: () => import('./FundraiserView'),
+  loading: 'Loading Sidebar...',
+});
+
 type FundraiserConfig = {
   el: ?HTMLElement,
   store: Store<AppState, FundraiserAction>,
 };
 
-class Fundraiser {
+export default class Fundraiser {
   el: ?HTMLElement;
   store: Store<AppState, FundraiserAction>;
   constructor(config: FundraiserConfig) {
     this.el = config.el;
     this.store = config.store;
-    if (this.el) this._mount();
+    if (this.el) render(<LoadableFundraiser />, this.el);
   }
 
   state(): $PropertyType<AppState, 'fundraiser'> {
@@ -50,7 +56,7 @@ class Fundraiser {
     return this.state().donationAmount;
   }
 
-  currency(currency?: string): string {
+  currency(currency?: string) {
     if (currency) this.store.dispatch(changeCurrency(currency));
     return this.state().currency;
   }
@@ -58,12 +64,6 @@ class Fundraiser {
   donationBands(donationBands?: DonationBands) {
     if (donationBands) this.store.dispatch(setDonationBands(donationBands));
     return this.state().donationBands;
-  }
-
-  _mount() {
-    import('./FundraiserView').then(m => {
-      render(<m.default />, this.el);
-    });
   }
 }
 

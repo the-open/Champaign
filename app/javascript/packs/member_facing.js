@@ -20,6 +20,7 @@ import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import redirectors from '../member-facing/redirectors';
 import { formatMessage } from '../util/TranslationsLoader';
+import Fundraiser from '../fundraiser/fundraiser';
 
 window.URI = URI;
 
@@ -33,6 +34,7 @@ window.champaign = window.champaign || {};
 const store = configureStore(window.champaign);
 
 Object.assign(window.champaign, {
+  Fundraiser,
   Petition,
   PetitionAndScrollToConsent,
   Survey,
