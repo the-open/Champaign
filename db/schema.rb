@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180614131526) do
+ActiveRecord::Schema.define(version: 2018_06_14_131526) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
   enable_extension "intarray"
+  enable_extension "plpgsql"
 
   create_table "actionkit_page_types", id: :serial, force: :cascade do |t|
     t.string "actionkit_page_type", null: false
